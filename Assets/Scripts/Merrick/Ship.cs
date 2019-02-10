@@ -14,7 +14,7 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles {
         get;
     } // To change this, call the Damage or Heal functions
 
-    public new Rigidbody2D rigidbody;
+    [System.NonSerialized] public new Rigidbody2D rigidbody;
 
     private void Start() {
         rigidbody = GetComponent<Rigidbody2D>();
