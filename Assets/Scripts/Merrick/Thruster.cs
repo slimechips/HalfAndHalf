@@ -5,7 +5,7 @@ using UnityEngine;
 public class Thruster : MonoBehaviour
 {
 
-    public float thrust = 1;
+    public float thrust = 2;
     [System.NonSerialized] public new Rigidbody2D rigidbody;
 
     public string axisName = "";

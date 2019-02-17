@@ -7,11 +7,11 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles {
 
     [SerializeField] private float _maxhealth = 100;
     public float maxHealth {
-        get;
+        get { return _maxhealth; }
     }
     private float _health = 100;
     public float health {
-        get;
+        get { return _health; }
     } // To change this, call the Damage or Heal functions
 
     [System.NonSerialized] public new Rigidbody2D rigidbody;
@@ -22,6 +22,11 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles {
         //    Debug.LogWarning(gameObject.name + " does not have a rigidbody, self-deleting");
         //    Destroy(this);
         //}
+    }
+
+    public void BaseInitialise(float maxHealth)
+    {
+        this._maxhealth = maxHealth;
     }
 
     public float Damage(float amt) {
@@ -43,6 +48,7 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles {
         return _health - prevhealth;
     }
 
+    public abstract void Shoot();
     public abstract void OnDeath(); // child classes must implement
     public abstract bool ReceiveProjectile(Projectile p);
 }

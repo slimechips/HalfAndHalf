@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour {
 
     [SerializeField] public bool isPlayerProjectile = false;
@@ -10,21 +9,24 @@ public class Projectile : MonoBehaviour {
     [SerializeField] public float damage = 10;
     [SerializeField] public float damagePerSecond = 0;
 
-
-
-    public void OnCollisionEnter2D(Collision2D collision) {
-        ICollidesWithProjectiles target = collision.collider.GetComponent<ICollidesWithProjectiles>();
+    public void OnTriggerEnter2D(Collider2D collider) {
+        ICollidesWithProjectiles target = collider.GetComponent<ICollidesWithProjectiles>();
         if (target != null) {
             if (target.ReceiveProjectile(this)) {
-                if (destroyOnContact) Destroy(this);
+                if (destroyOnContact) Destroy(gameObject);
             }
         }
     }
 
-    public void OnCollisionStay2D(Collision2D collision) {
-        ICollidesWithProjectiles target = collision.collider.GetComponent<ICollidesWithProjectiles>();
+    public void OnTriggerStay2D(Collider2D collider) {
+        ICollidesWithProjectiles target = collider.GetComponent<ICollidesWithProjectiles>();
         if (target != null) {
             target.ReceiveProjectile(this);
         }
+    }
+
+    public void BulletMove(float shotSpd)
+    {
+        this.transform.position += transform.up * Time.deltaTime * shotSpd;
     }
 }

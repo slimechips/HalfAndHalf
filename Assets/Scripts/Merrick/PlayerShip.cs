@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerShip : Ship
 {
@@ -9,6 +10,8 @@ public class PlayerShip : Ship
 
     // reference to sprites
     public Sprite[] playerSprites;
+
+    public Image healthIm;
 
     private SpriteRenderer sprite;
 
@@ -43,6 +46,8 @@ public class PlayerShip : Ship
             sprite.sprite = playerSprites[0];
         }
 
+        // visualise health using the spaceship
+        healthIm.fillAmount = 1f - health / maxHealth;
     }
 
     public override void OnDeath()
@@ -63,5 +68,10 @@ public class PlayerShip : Ship
             return true;
         }
         return false;
+    }
+
+    public override void Shoot()
+    {
+        throw new System.NotImplementedException();
     }
 }
