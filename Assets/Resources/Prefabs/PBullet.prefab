@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 843413769984412270}
   - component: {fileID: 6096645372545970078}
-  - component: {fileID: 1224951027780441459}
   - component: {fileID: 4321901595141507191}
+  - component: {fileID: 8914945862927620960}
   m_Layer: 0
   m_Name: PBullet
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8365950997526045046}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
@@ -81,22 +81,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1224951027780441459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8365950997526045046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7829833c65f3f814d8a082ff83dba8f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayerProjectile: 1
-  destroyOnContact: 1
-  damage: 10
-  damagePerSecond: 0
 --- !u!61 &4321901595141507191
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -123,3 +107,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.27136573, y: 0.4055794}
   m_EdgeRadius: 0
+--- !u!114 &8914945862927620960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8365950997526045046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda0571672af6a34ca9c8f44eec0b195, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerProjectile: 1
+  destroyOnContact: 1
+  damage: 10
+  damagePerSecond: 0
+  speed: 1
