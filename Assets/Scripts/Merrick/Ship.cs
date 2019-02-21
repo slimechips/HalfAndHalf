@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles {
 
     [SerializeField] private float _maxhealth = 100;

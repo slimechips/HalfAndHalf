@@ -12,7 +12,7 @@ public class EnemyManager : MonoBehaviour
 
     // store in array: maxHealth, rotSpd, moveSpd, shotSpd, shootRange, shootDelay
     [SerializeField]
-    private float[] chaserStats = new float[6], shooterStats = new float[6], kamikazeStats = new float[6];
+    private float[] chaserStats = new float[7], shooterStats = new float[7], kamikazeStats = new float[7];
 
     private Object chaserPf, shooterPf, kamikazePf;
     //private List<GameObject> chasers, shooters, kamikazes;
@@ -39,7 +39,9 @@ public class EnemyManager : MonoBehaviour
     {
         int choice = Random.Range(0, 3);
 
-        SpawnEnemy("chaser");
+        string[] enemies = new string[] { "chaser", "shooter", "kamikaze" };
+
+        SpawnEnemy(enemies[choice]);
 
     }
 

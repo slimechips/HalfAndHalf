@@ -41,6 +41,12 @@ public class EnemyShip : Ship
         get { return _canShoot; }
     }
 
+    private float _moveRange;
+    public float moveRange
+    {
+        get { return _moveRange; }
+    }
+
     public void Initialise(GameObject player, GameObject em, params float[] list)
     {
         BaseInitialise(list[0]);
@@ -50,20 +56,23 @@ public class EnemyShip : Ship
         this._shotSpd = list[3];
         this._shootRange = list[4];
         this._shootDelay = list[5];
+        this._moveRange = list[6];
         this._em = em;
         StartCoroutine(DelayShot());
     }
 
-    public void BasicMovement()
+    public void BasicRotate()
     {
-        // call this for basic movement (ie. rotate and move towards the player)
         // rotate the transform to face the player
         Vector3 targetDir = player.transform.position - transform.position;
         float angle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg - 90;
 
         Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotSpd);
+    }
 
+    public void BasicMovement()
+    {
         // move towards the player
         //transform.position += Vector3.Normalize(targetDir) * Time.deltaTime * moveSpd;
         transform.position += transform.up * Time.deltaTime * moveSpd;

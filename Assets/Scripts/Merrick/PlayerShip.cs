@@ -37,7 +37,7 @@ public class PlayerShip : Ship
         {
             sprite.sprite = playerSprites[1];
         }
-                else if (Input.GetAxis("p1 a") > 0 && Input.GetAxis("p2 a") > 0)
+        else if (Input.GetAxis("p1 a") > 0 && Input.GetAxis("p2 a") > 0)
         {
             sprite.sprite = playerSprites[3];
         }

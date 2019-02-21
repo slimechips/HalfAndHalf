@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShield : MonoBehaviour {
+public class PlayerShield : MonoBehaviour, ICollidesWithProjectiles {
 
     [SerializeField] private bool player1 = true;
 
@@ -50,5 +50,9 @@ public class PlayerShield : MonoBehaviour {
             }
             currentDuration += Time.fixedDeltaTime;
         }
+    }
+
+    public bool ReceiveProjectile(Projectile p) {
+        return !p.isPlayerProjectile;
     }
 }

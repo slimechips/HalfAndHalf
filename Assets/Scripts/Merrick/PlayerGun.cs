@@ -20,35 +20,35 @@ public class PlayerGun : MonoBehaviour {
         }
     }
 
-    private void Update() {
-        if (player1) {
-            transform.up = Vector3.RotateTowards(-transform.parent.right, 
-                                                 new Vector3(Input.GetAxis("p1 left horizontal"), Input.GetAxis("p1 left vertical"), 0).normalized, 
-                                                 Mathf.Deg2Rad * rotateAngle, 0);
-        }
-        else {
-            transform.up = Vector3.RotateTowards(transform.parent.right,
-                                                 new Vector3(Input.GetAxis("p2 left horizontal"), Input.GetAxis("p2 left vertical"), 0).normalized,
-                                                 Mathf.Deg2Rad * rotateAngle, 0);
-        }
-    }
-
     private void FixedUpdate() {
         if (cooldown > 0) {
             cooldown -= Time.fixedDeltaTime;
         }
         else if (player1) {
-            if (Input.GetButton("p1 b")) {
+            if (Input.GetButton("p1 b") && !Input.GetButton("p1 x")) {
                 cooldown += period;
                 Instantiate(bullet, transform.position, transform.rotation);
                 //bullet.transform.localRotation = transform.localRotation;
             }
         }
         else {
-            if (Input.GetButton("p2 b")) {
+            if (Input.GetButton("p2 b") && !Input.GetButton("p2 x")) {
                 cooldown += period;
                 Instantiate(bullet, transform.position, transform.rotation);
                 //bullet.transform.localRotation = transform.localRotation;
+            }
+        }
+
+        if (!Input.GetButton("p1 x")) {
+            if (player1) {
+                transform.up = Vector3.RotateTowards(-transform.parent.right,
+                                                     new Vector3(Input.GetAxis("p1 left horizontal"), Input.GetAxis("p1 left vertical"), 0).normalized,
+                                                     Mathf.Deg2Rad * rotateAngle, 0);
+            }
+            else {
+                transform.up = Vector3.RotateTowards(transform.parent.right,
+                                                     new Vector3(Input.GetAxis("p2 left horizontal"), Input.GetAxis("p2 left vertical"), 0).normalized,
+                                                     Mathf.Deg2Rad * rotateAngle, 0);
             }
         }
     }
