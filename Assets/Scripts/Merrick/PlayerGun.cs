@@ -25,17 +25,15 @@ public class PlayerGun : MonoBehaviour {
             cooldown -= Time.fixedDeltaTime;
         }
         else if (player1) {
-            if (Input.GetButton("p1 b") && !Input.GetButton("p1 x")) {
+            if (Input.GetButton("p1 a") && !Input.GetButton("p1 x")) {
                 cooldown += period;
                 Instantiate(bullet, transform.position, transform.rotation);
-                //bullet.transform.localRotation = transform.localRotation;
             }
         }
         else {
-            if (Input.GetButton("p2 b") && !Input.GetButton("p2 x")) {
+            if (Input.GetButton("p2 a") && !Input.GetButton("p2 x")) {
                 cooldown += period;
                 Instantiate(bullet, transform.position, transform.rotation);
-                //bullet.transform.localRotation = transform.localRotation;
             }
         }
 

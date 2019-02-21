@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class Thruster : MonoBehaviour {
 
-    public float thrust = 2;
+    private bool nitroOn = false;
+    public float thrust = 2f;
+    //[System.NonSerialized]
+    public float nitroThrust = 10f;
+    private float nitroDuration = 1f;
+    private float timeCounter = 1f;
+    private float timeBuffer = -0.25f;
     [System.NonSerialized] public new Rigidbody2D rigidbody;
 
-    public string axisName = "";
+    [SerializeField] private bool player1 = true;
 
     private void Start() {
 
@@ -19,6 +25,20 @@ public class Thruster : MonoBehaviour {
     }
 
     private void Update() {
-        rigidbody.AddForceAtPosition(thrust * Input.GetAxis(axisName) * transform.up, transform.position, ForceMode2D.Force);
+        if (Input.GetButtonDown(player1 ? "p1 y" : "p2 y") && !nitroOn && timeCounter < timeBuffer) {
+            nitroOn = true;
+            timeCounter = nitroDuration;
+        }
+        if (nitroOn && timeCounter < 0) {
+            nitroOn = false;
+            rigidbody.velocity *= 0.5f;
+            rigidbody.angularVelocity *= 0.5f;
+        }
+    }
+
+    private void FixedUpdate() {
+        timeCounter -= Time.fixedDeltaTime;
+        if (nitroOn) rigidbody.AddForceAtPosition(nitroThrust * transform.up, transform.position, ForceMode2D.Force);
+        else if (Input.GetAxis(player1 ? "p1 b" : "p2 b") > 0.1f) rigidbody.AddForceAtPosition(thrust * transform.up, transform.position, ForceMode2D.Force);
     }
 }

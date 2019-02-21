@@ -15,6 +15,10 @@ public class PlayerShield : MonoBehaviour, ICollidesWithProjectiles {
 
     private void Start() {
         child = transform.GetChild(0).gameObject;
+        if (child == null) {
+            Debug.LogWarning(gameObject.name + " does not have a child, self-deleting");
+            Destroy(this);
+        }
         child.SetActive(false);
     }
 
