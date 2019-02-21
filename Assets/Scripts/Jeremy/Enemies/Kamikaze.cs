@@ -9,8 +9,16 @@ public class Kamikaze : EnemyShip
     {
         if (player != null)
         {
-            BasicMovement();
-        }
+            BasicRotate();
+            if (Vector2.Distance(player.transform.position, transform.position) > shootRange)
+            {
+                BasicMovement();
+            }
 
+            if (Vector2.Distance(player.transform.position, transform.position) <= shootRange)
+            {
+                // initiate charging explosion
+            }
+        }
     }
 }

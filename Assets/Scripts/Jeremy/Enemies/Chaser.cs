@@ -8,7 +8,11 @@ public class Chaser : EnemyShip
     {
         if (player != null)
         {
-            BasicMovement();
+            BasicRotate();
+            if (Vector2.Distance(player.transform.position, transform.position) > moveRange)
+            {
+                BasicMovement();
+            }
 
             // if within a certain distance, fire a bullet
             if (Vector2.Distance(player.transform.position, transform.position) < shootRange && canShoot)
