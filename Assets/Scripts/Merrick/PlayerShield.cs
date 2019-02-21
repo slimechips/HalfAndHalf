@@ -15,6 +15,7 @@ public class PlayerShield : MonoBehaviour {
 
     private void Start() {
         child = transform.GetChild(0).gameObject;
+        child.SetActive(false);
     }
 
     private void Update() {
