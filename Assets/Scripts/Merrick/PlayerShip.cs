@@ -15,6 +15,12 @@ public class PlayerShip : Ship
 
     private SpriteRenderer sprite;
 
+    private float _energy = 100;
+    public float energy {
+        get { return _energy; }
+        set { _energy = Mathf.Clamp(value, 0, 100); }
+    }
+
     private void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
