@@ -33,12 +33,7 @@ public class GameOverManager : MonoBehaviour
             if (restartTimer >= restartDelay)
             {
                 // .. then reload the currently loaded level.
-<<<<<<< HEAD
-                //Application.LoadLevel(Application.loadedLevel);
-                SceneManager.LoadScene("SampleScene");
-=======
                 SceneManager.LoadScene(0);
->>>>>>> d56e4a722f92d3a1ff37b3eb87b21e793e01c311
             }
         }
     }
