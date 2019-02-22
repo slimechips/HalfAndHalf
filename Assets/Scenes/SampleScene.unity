@@ -287,12 +287,13 @@ MonoBehaviour:
   maxChasers: 10
   maxShooters: 7
   maxKamikazes: 5
+  maxRapids: 0
   chaserStats:
   - 20
   - 5
   - 1
   - 5
-  - 3
+  - 2.6
   - 3
   - 2
   shooterStats:
@@ -300,17 +301,25 @@ MonoBehaviour:
   - 5
   - 0.5
   - 5
-  - 6
+  - 4.5
   - 2
   - 3.5
   kamikazeStats:
-  - 20
+  - 40
   - 5
   - 1.5
   - 0
   - 4
   - 0
   - 1.5
+  rapidStats:
+  - 20
+  - 3
+  - 0.25
+  - 5
+  - 6
+  - 0.25
+  - 5
 --- !u!4 &354783932
 Transform:
   m_ObjectHideFlags: 0
@@ -1095,7 +1104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.21568628}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2001,7 +2010,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640620135}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b2ab2cb9e462cff4090629d9da28c72f, type: 2}
   m_CullingMode: 0

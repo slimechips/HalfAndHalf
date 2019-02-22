@@ -15,7 +15,7 @@ public class PlayerShip : Ship
     public Slider energySlider;                                 // Reference to the UI's energy bar.
     public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
     public AudioClip deathClip;                                 // The audio clip to play when the player dies.
-    public float flashSpeed = 5f;                               // The speed the damageImage will fade at.
+    public float flashSpeed = 4.5f;                               // The speed the damageImage will fade at.
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);     // The colour the damageImage is set to, to flash.
 
     Animator anim;                                              // Reference to the Animator component.
@@ -47,15 +47,15 @@ public class PlayerShip : Ship
     private void Update()
     {
         // alternate between the different images for thrusters
-        if (Input.GetAxis("p1 a") > 0 && Input.GetAxis("p2 a") == 0)
+        if (Input.GetAxis("p1 b") > 0.1f && Input.GetAxis("p2 b") == 0)
         {
             sprite.sprite = playerSprites[2];
         }
-        else if (Input.GetAxis("p1 a") == 0 && Input.GetAxis("p2 a") > 0)
+        else if (Input.GetAxis("p1 b") == 0 && Input.GetAxis("p2 b") > 0.1f)
         {
             sprite.sprite = playerSprites[1];
         }
-        else if (Input.GetAxis("p1 a") > 0 && Input.GetAxis("p2 a") > 0)
+        else if (Input.GetAxis("p1 b") > 0.1f && Input.GetAxis("p2 b") > 0.1f)
         {
             sprite.sprite = playerSprites[3];
         }
@@ -84,13 +84,19 @@ public class PlayerShip : Ship
         energySlider.value = energy;
     }
 
+    public void DamageFlash()
+    {
+        damaged = true;
+    }
+
     public override void OnDeath()
     {
         // spawn explosions
         // trigger defeat screen
-
-        //placeholder
-
+        GameObject go = Instantiate(Resources.Load("Prefabs/Explosion") as GameObject);
+        go.transform.position = transform.position;
+        go.GetComponent<SpriteRenderer>().color = new Color(255, 255, 0);
+        
         // Tell the animator that the player is dead.
         isDead = true;
         anim.SetTrigger("Die");

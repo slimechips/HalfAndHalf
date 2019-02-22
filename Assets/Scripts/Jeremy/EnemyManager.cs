@@ -7,16 +7,18 @@ public class EnemyManager : MonoBehaviour
     public GameObject player;
 
     [SerializeField]
-    private int maxChasers, maxShooters, maxKamikazes;
-    private int curChasers, curShooters, curKamikazes;
+    private int maxChasers, maxShooters, maxKamikazes, maxRapids;
+    private int curChasers, curShooters, curKamikazes, curRapids;
 
     // store in array: maxHealth, rotSpd, moveSpd, shotSpd, shootRange, shootDelay
     [SerializeField]
-    private float[] chaserStats = new float[7], shooterStats = new float[7], kamikazeStats = new float[7];
+    private float[] chaserStats = new float[7], shooterStats = new float[7], kamikazeStats = new float[7], rapidStats = new float[7];
 
-    private Object chaserPf, shooterPf, kamikazePf;
+    private Object chaserPf, shooterPf, kamikazePf, rapidPf;
     //private List<GameObject> chasers, shooters, kamikazes;
 
+    private float enemySpawnTime = 15f, timer = 5f;
+    private float diffTime = 5f, diffTimer = 5f;
 
     void Awake()
     {
@@ -28,18 +30,51 @@ public class EnemyManager : MonoBehaviour
         chaserPf = Resources.Load("Prefabs/Chaser", typeof(GameObject));
         shooterPf = Resources.Load("Prefabs/Shooter", typeof(GameObject));
         kamikazePf = Resources.Load("Prefabs/Kamikaze", typeof(GameObject));
+        rapidPf = Resources.Load("Prefabs/Rapid", typeof(GameObject));
     }
 
     private void Start()
     {
-        InvokeRepeating("Spawner", 3, 10);
+        //InvokeRepeating("Spawner", 3, 10);
+    }
+
+    private void FixedUpdate()
+    {
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        else
+        {
+            timer = enemySpawnTime;
+            Spawner();
+        }
+
+        if(diffTimer > 0)
+        {
+            diffTimer -= Time.deltaTime;
+        }
+        else
+        {
+            diffTimer = diffTime;
+            enemySpawnTime -= 0.5f;
+            enemySpawnTime = Mathf.Max(enemySpawnTime, 3f);
+            maxChasers += 1;
+            maxShooters += 1;
+            maxKamikazes += 1;
+            maxRapids += 1;
+        }
     }
 
     private void Spawner()
     {
-        int choice = Random.Range(0, 3);
+        List<string> enemies = new List<string>();
+        if (curChasers < maxChasers) enemies.Add("chaser");
+        if (curShooters < maxShooters) enemies.Add("shooter");
+        if (curKamikazes < maxKamikazes) enemies.Add("kamikaze");
+        if (curRapids < maxRapids) enemies.Add("rapid");
 
-        string[] enemies = new string[] { "chaser", "shooter", "kamikaze" };
+        int choice = Random.Range(0, enemies.Count);
 
         SpawnEnemy(enemies[choice]);
 
@@ -70,6 +105,13 @@ public class EnemyManager : MonoBehaviour
                 go.GetComponent<Kamikaze>().Initialise(player, gameObject, kamikazeStats);
                 curKamikazes++;
                 break;
+
+            case "rapid":
+                go = Instantiate(rapidPf) as GameObject;
+                go.GetComponent<Rapid>().Initialise(player, gameObject, rapidStats);
+                curRapids++;
+                break;
+
         }
 
         // randomly choose a point along the bounds
@@ -121,6 +163,10 @@ public class EnemyManager : MonoBehaviour
 
             case "kamikaze":
                 curKamikazes--;
+                break;
+
+            case "rapid":
+                curRapids--;
                 break;
         }
     }

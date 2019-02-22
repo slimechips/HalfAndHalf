@@ -5,19 +5,29 @@ using UnityEngine;
 public class Star : MonoBehaviour
 {
     private float margin = 10f;
-    private float height;
-    private float width;
+    private Vector3 scale;
+
+    private float period, phase;
+
+    private SpriteRenderer sr;
 
     // Start is called before the first frame update
     void Start()
     {
-        height = Camera.main.orthographicSize * 2f;
-        width = height * Screen.width / Screen.height;
+        scale = transform.localScale;
+
+        period = Random.Range(8f, 16f);
+        phase = Random.Range(0, Mathf.PI * 2);
+        sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        // scale/alpha goes up and down
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, Mathf.Sin(phase + Time.time / period * 2 * Mathf.PI));
+        transform.localScale = scale * (0.5f + Mathf.Sin(phase + Time.time / period * 2 * Mathf.PI));
+
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
         Vector3 finPos = screenPos;
         if(screenPos.x < -margin || screenPos.x > Camera.main.pixelWidth + margin)

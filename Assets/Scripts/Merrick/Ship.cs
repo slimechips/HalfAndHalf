@@ -26,6 +26,7 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles {
     public void BaseInitialise(float maxHealth)
     {
         this._maxhealth = maxHealth;
+        this._health = maxHealth;
     }
 
     public float Damage(float amt) {

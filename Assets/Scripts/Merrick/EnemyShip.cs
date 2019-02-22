@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyShip : Ship
 {
     private GameObject _player;
+    private float margin = 5f;
+
     public GameObject player
     {
         get { return _player; }
@@ -86,7 +88,8 @@ public class EnemyShip : Ship
 
     public override void OnDeath()
     {
-        // spawn death explosion
+        GameObject go = Instantiate(Resources.Load("Prefabs/Explosion") as GameObject);
+        go.transform.position = transform.position;
         Destroy(gameObject);
     }
 
@@ -110,5 +113,23 @@ public class EnemyShip : Ship
         bullet.GetComponent<Bullet>().Initialise(_shotSpd);
         _canShoot = false;
         StartCoroutine(DelayShot());
+    }
+
+    private void Update()
+    {
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 finPos = screenPos;
+        if (screenPos.x < -margin || screenPos.x > Camera.main.pixelWidth + margin)
+        {
+            if (screenPos.x < -margin) finPos = Vector3.right * (Camera.main.pixelWidth + margin / 2) + screenPos;
+            else finPos = Vector3.left * (Camera.main.pixelWidth + margin / 2) + screenPos;
+        }
+        else if (screenPos.y < -margin || screenPos.y > Camera.main.pixelHeight + margin)
+        {
+            if (screenPos.y < -margin) finPos = Vector3.up * (Camera.main.pixelHeight + margin / 2) + screenPos;
+            else finPos = Vector3.down * (Camera.main.pixelHeight + margin / 2) + screenPos;
+        }
+        transform.position = Camera.main.ScreenToWorldPoint(finPos);
+
     }
 }

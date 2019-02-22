@@ -17,11 +17,14 @@ public class Starfield : MonoBehaviour
 
             float scale = Random.Range(0.3f, 0.5f);
 
+            float rotation = Random.Range(0f, 360f);
+
             int choice = Random.Range(1, 3);
 
             GameObject go = Instantiate(Resources.Load("Prefabs/Star" + choice.ToString())) as GameObject;
             go.transform.position = pos;
             go.transform.localScale = Vector3.one * scale;
+            go.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
         }
     }
 }
