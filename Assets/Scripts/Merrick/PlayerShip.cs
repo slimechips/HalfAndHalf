@@ -10,10 +10,20 @@ public class PlayerShip : Ship
 
     // reference to sprites
     public Sprite[] playerSprites;
-
     public Image healthIm;
-
     private SpriteRenderer sprite;
+    public Slider energySlider;                                 // Reference to the UI's energy bar.
+    public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
+    public AudioClip deathClip;                                 // The audio clip to play when the player dies.
+    public float flashSpeed = 5f;                               // The speed the damageImage will fade at.
+    public Color flashColour = new Color(1f, 0f, 0f, 0.1f);     // The colour the damageImage is set to, to flash.
+
+    Animator anim;                                              // Reference to the Animator component.
+    AudioSource playerAudio;                                    // Reference to the AudioSource component.
+    bool isDead;                                                // Whether the player is dead.
+    bool damaged;                                               // True when the player gets damaged.
+
+
 
     private float _energy = 100;
     public float energy {
@@ -24,6 +34,8 @@ public class PlayerShip : Ship
     private void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -52,8 +64,24 @@ public class PlayerShip : Ship
             sprite.sprite = playerSprites[0];
         }
 
+        if (damaged)
+        {
+            // ... set the colour of the damageImage to the flash colour.
+            damageImage.color = flashColour;
+            playerAudio.Play();
+        }
+        else
+        {
+            // ... transition the colour back to clear.
+            damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+        }
+        damaged = false;
+
         // visualise health using the spaceship
         healthIm.fillAmount = 1f - health / maxHealth;
+
+
+        energySlider.value = energy;
     }
 
     public override void OnDeath()
@@ -62,6 +90,14 @@ public class PlayerShip : Ship
         // trigger defeat screen
 
         //placeholder
+
+        // Tell the animator that the player is dead.
+        isDead = true;
+        anim.SetTrigger("Die");
+        // Set the audiosource to play the death clip and play it (this will stop the hurt sound from playing).
+        playerAudio.clip = deathClip;
+        playerAudio.Play();
+
         if (sprite != null) sprite.enabled = false;
     }
 
@@ -69,6 +105,7 @@ public class PlayerShip : Ship
     {
         if (!p.isPlayerProjectile)
         {
+            damaged = true;
             Damage(p.damage);
             Damage(p.damagePerSecond * Time.fixedDeltaTime);
             return true;
