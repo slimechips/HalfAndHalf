@@ -15,7 +15,7 @@ public class FollowPlayer : MonoBehaviour {
         speed = player.GetComponent<Rigidbody2D>().velocity;
 
         transform.position = new Vector3(player.transform.position.x, player.transform.position.y,
-                                         transform.position.z) + speed*0.5f;  // may need to change for turbo
+                                         transform.position.z) + speed*0.0f;  // may need to change for turbo
 
     }
 }

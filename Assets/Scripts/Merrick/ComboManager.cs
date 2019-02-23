@@ -118,7 +118,7 @@ public class ComboManager : MonoBehaviour {
             if (timer < 0) State = ComboState.None;
         }
         else {
-            timer += Time.deltaTime;
+            timer -= Time.deltaTime;
             if (timer < 0) {
                 State = ComboState.Cooldown;
                 rigidbody.drag = savedDrag;
@@ -144,8 +144,8 @@ public class ComboManager : MonoBehaviour {
 
     private void ShieldStrike() {
         p1Thruster.ResetNitro(); p2Thruster.ResetNitro();
-        rigidbody.velocity = transform.up * 2f;
-        rigidbody.drag = savedDrag * 2;
+        rigidbody.velocity = transform.up * 10f;
+        rigidbody.drag = savedDrag * 20;
         rigidbody.angularVelocity = 0;
         timer = 1f;
         State = ComboState.ShieldStrike;
@@ -155,7 +155,7 @@ public class ComboManager : MonoBehaviour {
         p1Thruster.ResetNitro(); p2Thruster.ResetNitro();
         p1Gun.cooldown = 0; p2Gun.cooldown = 0;
         p1Shield.Reset(); p2Shield.Reset();
-        rigidbody.velocity = transform.up * 2f;
+        rigidbody.velocity = transform.up * 5f;
         rigidbody.drag = 0;
         rigidbody.angularVelocity = 0;
         timer = 3f;
@@ -173,7 +173,7 @@ public class ComboManager : MonoBehaviour {
 
     private void SwordAndBoard(bool player2side) {
         p1Thruster.ResetNitro(); p2Thruster.ResetNitro();
-        if (!player2side) { p1BigShield.gameObject.SetActive(true); p1BigShield.timeToSelfDisable = 5f; }
+        if (player2side) { p1BigShield.gameObject.SetActive(true); p1BigShield.timeToSelfDisable = 5f; }
         else { p2BigShield.gameObject.SetActive(true); p2BigShield.timeToSelfDisable = 5f; }
         timer = 5f;
         State = player2side? ComboState.SwordAndBoardP2 : ComboState.SwordAndBoardP1;

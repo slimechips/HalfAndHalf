@@ -15,10 +15,10 @@ public class PlayerGun : MonoBehaviour {
         get {
             if (ComboManager.State == ComboManager.ComboState.BulletSpinClock
             || ComboManager.State == ComboManager.ComboState.BulletSpinAntiC) {
-                return 0.05f;
+                return 0.01f;
             }
             else if (ComboManager.State == ComboManager.ComboState.ShipOfTheLine) {
-                return 0.1f;
+                return 0.01f;
             }
             else return _period;
         }
@@ -65,13 +65,19 @@ public class PlayerGun : MonoBehaviour {
         }
         else if (ComboManager.State == ComboManager.ComboState.ShieldStrike) {; }
         else if (player1) {
-            if (Input.GetButton("p1 a") && !Input.GetButton("p1 x")) {
+            if ((Input.GetButton("p1 a") && !Input.GetButton("p1 x"))
+                 || ComboManager.State == ComboManager.ComboState.BulletSpinClock
+                 || ComboManager.State == ComboManager.ComboState.BulletSpinAntiC
+                 || ComboManager.State == ComboManager.ComboState.ShipOfTheLine) {
                 cooldown += period;
                 Instantiate(bullet, transform.position, transform.rotation);
             }
         }
         else {
-            if (Input.GetButton("p2 a") && !Input.GetButton("p2 x")) {
+            if ((Input.GetButton("p2 a") && !Input.GetButton("p2 x"))
+                 || ComboManager.State == ComboManager.ComboState.BulletSpinClock
+                 || ComboManager.State == ComboManager.ComboState.BulletSpinAntiC
+                 || ComboManager.State == ComboManager.ComboState.ShipOfTheLine) {
                 cooldown += period;
                 Instantiate(bullet, transform.position, transform.rotation);
             }

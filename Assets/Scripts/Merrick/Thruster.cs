@@ -58,7 +58,7 @@ public class Thruster : MonoBehaviour {
         //else if (ComboManager.State == ComboManager.ComboState.SwordAndBoardP2) {
         //}
         else if (nitroOn) rigidbody.AddForceAtPosition(nitroThrust * transform.up, transform.position, ForceMode2D.Force);
-        else if (Input.GetAxis(player1 ? "p1 b" : "p2 b") > 0.1f) rigidbody.AddForceAtPosition(thrust * transform.up, transform.position, ForceMode2D.Force);
+        else if (Input.GetAxis(player1 ? "p1 b" : "p2 b") > 0.01f) rigidbody.AddForceAtPosition(thrust * transform.up, transform.position, ForceMode2D.Force);
     }
 
     public void ResetNitro() {
