@@ -17,7 +17,7 @@ public class HighscoreTable : MonoBehaviour
 
         entryTemplate.gameObject.SetActive(false);
 
-        AddHighscoreEntry(10700, "ZZZ");
+        //AddHighscoreEntry(10700, "ZZZ");
 
         /*highscoreEntryList = new List<HighscoreEntry>() {
             new HighscoreEntry{ score = 111, name = "AAA"},
@@ -27,6 +27,8 @@ public class HighscoreTable : MonoBehaviour
 
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+        Debug.Log(highscores);
+        highscores.pritnsize();
 
         // Sort entry list by Score
         for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
@@ -48,7 +50,7 @@ public class HighscoreTable : MonoBehaviour
 
 
         highscoreEntryTransformList = new List<Transform>();
-        foreach (HighscoreEntry highscoreEntry in highscoreEntryList)
+        foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
         {
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
         }
@@ -120,7 +122,9 @@ public class HighscoreTable : MonoBehaviour
 
         // Save updated Highscores
         string json = JsonUtility.ToJson(highscores);
+        Debug.Log(json);
         PlayerPrefs.SetString("highscoreTable", json);
+        //Debug.Log(S);
         PlayerPrefs.Save();
     }
 
@@ -128,6 +132,11 @@ public class HighscoreTable : MonoBehaviour
     private class Highscores
     {
         public List<HighscoreEntry> highscoreEntryList;
+
+        public void pritnsize()
+        {
+            Debug.Log(highscoreEntryList.Count);
+        }
     }
 
     [System.Serializable]
