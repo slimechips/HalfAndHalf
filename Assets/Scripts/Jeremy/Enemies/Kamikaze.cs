@@ -17,6 +17,7 @@ public class Kamikaze : EnemyShip
     private void Start()
     {
         ps = GetComponent<ParticleSystem>();
+        reward = 20;
     }
 
     // Update is called once per frame

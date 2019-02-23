@@ -333,6 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerShip: {fileID: 1640620137}
   restartDelay: 5
+  scoreText: {fileID: 907848609}
 --- !u!1 &354783930
 GameObject:
   m_ObjectHideFlags: 0

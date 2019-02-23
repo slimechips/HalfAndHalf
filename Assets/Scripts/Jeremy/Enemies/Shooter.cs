@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Shooter : EnemyShip
 {
+    private void Start()
+    {
+        reward = 15;
+    }
     // Update is called once per frame
     void Update()
     {

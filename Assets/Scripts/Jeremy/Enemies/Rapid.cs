@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Rapid : EnemyShip
 {
-    // Update is called once per frame
+    private void Start()
+    {
+        reward = 25;
+    }
+    // Update is called once per fram
     void Update()
     {
         if (player != null)

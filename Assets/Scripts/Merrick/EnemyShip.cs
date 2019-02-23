@@ -15,6 +15,8 @@ public class EnemyShip : Ship
     private GameObject _em;
 
     private float _rotSpd, _moveSpd, _shotSpd;
+
+    public int reward;
     public float rotSpd
     {
         get { return _rotSpd; }
@@ -91,6 +93,9 @@ public class EnemyShip : Ship
         GameObject go = Instantiate(Resources.Load("Prefabs/Explosion") as GameObject);
         go.transform.position = transform.position;
         Destroy(gameObject);
+
+        player.GetComponent<PlayerShip>().addScore(reward);
+
     }
 
     public override bool ReceiveProjectile(Projectile p)

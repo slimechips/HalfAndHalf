@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Chaser : EnemyShip
 {
+    private void Start()
+    {
+        reward = 10;
+    }
     private void Update()
     {
         if (player != null)

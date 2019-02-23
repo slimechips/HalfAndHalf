@@ -155,18 +155,22 @@ public class EnemyManager : MonoBehaviour
 
             case "chaser":
                 curChasers--;
+                //player.GetComponent<PlayerShip>().addScore(10);
                 break;
 
             case "shooter":
                 curShooters--;
+                //player.GetComponent<PlayerShip>().addScore(15);
                 break;
 
             case "kamikaze":
                 curKamikazes--;
+                //player.GetComponent<PlayerShip>().addScore(20);
                 break;
 
             case "rapid":
                 curRapids--;
+               // player.GetComponent<PlayerShip>().addScore(25);
                 break;
         }
     }

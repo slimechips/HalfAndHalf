@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class GameOverManager : MonoBehaviour
 {
     public PlayerShip playerShip;       // Reference to the player's health.
@@ -9,7 +10,7 @@ public class GameOverManager : MonoBehaviour
 
     Animator anim;                          // Reference to the animator component.
     float restartTimer;                     // Timer to count up to restarting the level
-
+    [SerializeField] private UnityEngine.UI.Text scoreText;
 
     void Awake()
     {
@@ -23,6 +24,7 @@ public class GameOverManager : MonoBehaviour
         // If the player has run out of health...
         if (playerShip.health <= 0)
         {
+            scoreText.text = playerShip.score.ToString();
             // ... tell the animator the game is over.
             anim.SetTrigger("GameOver");
 
@@ -33,7 +35,7 @@ public class GameOverManager : MonoBehaviour
             if (restartTimer >= restartDelay)
             {
                 // .. then reload the currently loaded level.
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene("HighscoreTable");
             }
         }
     }

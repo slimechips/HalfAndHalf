@@ -23,6 +23,16 @@ public class PlayerShip : Ship
     bool isDead;                                                // Whether the player is dead.
     bool damaged;                                               // True when the player gets damaged.
 
+    private float _score = 0;
+    public float score
+    {
+        get { return _score; }
+    }
+
+    public void addScore(float amt)
+    {
+        _score += amt; 
+    }
 
 
     private float _energy = 100;

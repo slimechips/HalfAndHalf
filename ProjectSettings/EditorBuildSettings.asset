@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 1aead23318f3085488954d4f8831e41f
+  - enabled: 1
+    path: Assets/Scenes/HighscoreTable.unity
+    guid: 5c330d3d7294eaf40baaa6ce62e5b43a
   m_configObjects: {}
