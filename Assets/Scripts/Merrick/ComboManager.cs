@@ -74,6 +74,11 @@ public class ComboManager : MonoBehaviour {
 
             float angle1 = Vector3.Angle(new Vector3(Input.GetAxis("p1 left horizontal"), Input.GetAxis("p1 left vertical"), 0), transform.up);
             float angle2 = Vector3.Angle(new Vector3(Input.GetAxis("p2 left horizontal"), Input.GetAxis("p2 left vertical"), 0), transform.up);
+            Debug.Log(angle1 + ", " + angle2 + ", " + (angle1 < 25 && angle2 < 25)
+                     /*&& Input.GetButton("p1 x") && Input.GetButton("p2 x")
+                     && p1LastButton == Button.y && p1ButtonTime < 0.25f
+                     && p2LastButton == Button.y && p2ButtonTime < 0.25f*/);
+
 
             if (angle1 < 15 && angle2 > 165
                 && p1LastButton == Button.y && p1ButtonTime < 0.25f
@@ -90,6 +95,7 @@ public class ComboManager : MonoBehaviour {
                      && p1LastButton == Button.y && p1ButtonTime < 0.25f
                      && p2LastButton == Button.y && p2ButtonTime < 0.25f) {
                 ShieldStrike();
+                Debug.Log("shieldbash");
             }
             else if (angle1 < 105 && angle2 < 105
                      && angle1 > 75 && angle2 > 75
@@ -97,6 +103,7 @@ public class ComboManager : MonoBehaviour {
                      && p1LastButton == Button.a && p1ButtonTime < 0.25f
                      && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
                 ShipOfTheLine(); // controls are awkward, may change
+                Debug.Log("ship");
             }
             else if (p1LastButton == Button.x && p1ButtonTime < 0.15f
                      && p2LastButton == Button.x && p2ButtonTime < 0.15f) {
@@ -114,7 +121,7 @@ public class ComboManager : MonoBehaviour {
             }
         }
         else if (State == ComboState.Cooldown) {
-            timer += Time.deltaTime;
+            timer -= Time.deltaTime;
             if (timer < 0) State = ComboState.None;
         }
         else {
@@ -125,6 +132,9 @@ public class ComboManager : MonoBehaviour {
                 rigidbody.angularDrag = savedAngularDrag;
             }
         }
+
+        p1ButtonTime += Time.deltaTime;
+        p2ButtonTime += Time.deltaTime;
     }
 
     private void LateUpdate() {
@@ -144,8 +154,8 @@ public class ComboManager : MonoBehaviour {
 
     private void ShieldStrike() {
         p1Thruster.ResetNitro(); p2Thruster.ResetNitro();
-        rigidbody.velocity = transform.up * 10f;
-        rigidbody.drag = savedDrag * 20;
+        rigidbody.drag = savedDrag * 10;
+        rigidbody.velocity = transform.up * 50f;
         rigidbody.angularVelocity = 0;
         timer = 1f;
         State = ComboState.ShieldStrike;
@@ -155,10 +165,10 @@ public class ComboManager : MonoBehaviour {
         p1Thruster.ResetNitro(); p2Thruster.ResetNitro();
         p1Gun.cooldown = 0; p2Gun.cooldown = 0;
         p1Shield.Reset(); p2Shield.Reset();
-        rigidbody.velocity = transform.up * 5f;
         rigidbody.drag = 0;
+        rigidbody.velocity = transform.up * 5f;
         rigidbody.angularVelocity = 0;
-        timer = 3f;
+        timer = 1.5f;
         State = ComboState.ShipOfTheLine;
     }
 

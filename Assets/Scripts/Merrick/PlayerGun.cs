@@ -15,10 +15,10 @@ public class PlayerGun : MonoBehaviour {
         get {
             if (ComboManager.State == ComboManager.ComboState.BulletSpinClock
             || ComboManager.State == ComboManager.ComboState.BulletSpinAntiC) {
-                return 0.01f;
+                return 0.02f;
             }
             else if (ComboManager.State == ComboManager.ComboState.ShipOfTheLine) {
-                return 0.01f;
+                return 0.04f;
             }
             else return _period;
         }
