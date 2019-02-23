@@ -165,16 +165,16 @@ public class ComboManager : MonoBehaviour {
     private void Fortress() {
         p1Thruster.ResetNitro(); p2Thruster.ResetNitro();
         p1Shield.Reset(); p2Shield.Reset();
-        p1BigShield.enabled = true; p1BigShield.timeToSelfDisable = 2f;
-        p2BigShield.enabled = true; p2BigShield.timeToSelfDisable = 2f;
+        p1BigShield.gameObject.SetActive(true); p1BigShield.timeToSelfDisable = 2f;
+        p2BigShield.gameObject.SetActive(true); p2BigShield.timeToSelfDisable = 2f;
         timer = 2f;
         State = ComboState.Fortress;
     }
 
     private void SwordAndBoard(bool player2side) {
         p1Thruster.ResetNitro(); p2Thruster.ResetNitro();
-        if (!player2side) { p1BigShield.enabled = true; p1BigShield.timeToSelfDisable = 5f; }
-        else { p2BigShield.enabled = true; p2BigShield.timeToSelfDisable = 5f; }
+        if (!player2side) { p1BigShield.gameObject.SetActive(true); p1BigShield.timeToSelfDisable = 5f; }
+        else { p2BigShield.gameObject.SetActive(true); p2BigShield.timeToSelfDisable = 5f; }
         timer = 5f;
         State = player2side? ComboState.SwordAndBoardP2 : ComboState.SwordAndBoardP1;
     }

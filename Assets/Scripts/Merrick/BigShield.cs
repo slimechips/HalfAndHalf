@@ -10,7 +10,7 @@ public class BigShield : MonoBehaviour, ICollidesWithProjectiles {
     private void FixedUpdate() {
 
         if (timeToSelfDisable < 0) {
-            this.enabled = false;
+            gameObject.SetActive(false);
         }
         else {
             timeToSelfDisable -= Time.fixedDeltaTime;
