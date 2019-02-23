@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HighscoreTable : MonoBehaviour
 {
@@ -27,8 +28,8 @@ public class HighscoreTable : MonoBehaviour
 
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
-        Debug.Log(highscores);
-        highscores.pritnsize();
+        //Debug.Log(highscores);
+        //highscores.pritnsize();
 
         // Sort entry list by Score
         for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
@@ -50,23 +51,34 @@ public class HighscoreTable : MonoBehaviour
 
 
         highscoreEntryTransformList = new List<Transform>();
-        foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
+        /*foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
         {
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
-        }
+        }*/
 
+        for (int i = 0; i < 10; i++)
+        {
+            CreateHighscoreEntryTransform(highscores.highscoreEntryList[i], entryContainer, highscoreEntryTransformList);
+        }
         
         /*Highscores highscores = new Highscores { highscoreEntryList = highscoreEntryList };
         string json = JsonUtility.ToJson(highscores);
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
         Debug.Log(PlayerPrefs.GetString("highscoreTable"));*/
-        
-
-
-
     }
-    
+
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("p1 a") || Input.GetButtonDown("p2 a"))
+        {
+            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        }
+    }
+
+
+
     private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList)
     {
         float templateHeight = 33f;
@@ -108,7 +120,7 @@ public class HighscoreTable : MonoBehaviour
         transformList.Add(entryTransform);
     }
 
-    private void AddHighscoreEntry(int score, string name)
+    public void AddHighscoreEntry(int score, string name) //changed private to public
     {
         // Create Highscore Entry
         HighscoreEntry highscoreEntry = new HighscoreEntry { score = score, name = name };
@@ -123,6 +135,7 @@ public class HighscoreTable : MonoBehaviour
         // Save updated Highscores
         string json = JsonUtility.ToJson(highscores);
         Debug.Log(json);
+        //PlayerPrefs.SetString("highscoreTable", json); //using this to clear string lol
         PlayerPrefs.SetString("highscoreTable", json);
         //Debug.Log(S);
         PlayerPrefs.Save();
