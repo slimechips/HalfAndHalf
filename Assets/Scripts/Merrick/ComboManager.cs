@@ -80,25 +80,25 @@ public class ComboManager : MonoBehaviour {
                      && p2LastButton == Button.y && p2ButtonTime < 0.25f*/);
 
 
-            if (angle1 < 15 && angle2 > 165
+            if (angle1 < 25 && angle2 > 155
                 && p1LastButton == Button.y && p1ButtonTime < 0.25f
                 && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
                 BulletSpin(true);
             }
-            else if (angle2 < 15 && angle1 > 165
+            else if (angle2 < 25 && angle1 > 155
                      && p2LastButton == Button.y && p2ButtonTime < 0.25f
                      && p1LastButton == Button.a && p1ButtonTime < 0.25f) {
                 BulletSpin(false);
             }
-            else if (angle1 < 25 && angle2 < 25
+            else if (angle1 < 30 && angle2 < 30
                      && Input.GetButton("p1 x") && Input.GetButton("p2 x")
                      && p1LastButton == Button.y && p1ButtonTime < 0.25f
                      && p2LastButton == Button.y && p2ButtonTime < 0.25f) {
                 ShieldStrike();
                 Debug.Log("shieldbash");
             }
-            else if (angle1 < 105 && angle2 < 105
-                     && angle1 > 75 && angle2 > 75
+            else if (angle1 < 115 && angle2 < 115
+                     && angle1 > 65 && angle2 > 65
                      && Input.GetButton("p1 a") && Input.GetButton("p2 a")
                      && p1LastButton == Button.a && p1ButtonTime < 0.25f
                      && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
