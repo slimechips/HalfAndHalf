@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     private Object chaserPf, shooterPf, kamikazePf, rapidPf;
     //private List<GameObject> chasers, shooters, kamikazes;
 
-    private float enemySpawnTime = 15f, timer = 5f;
+    private float enemySpawnTime = 5f, timer = 5f;
     private float diffTime = 5f, diffTimer = 5f;
 
     void Awake()
