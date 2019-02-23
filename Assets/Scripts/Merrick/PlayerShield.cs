@@ -27,21 +27,10 @@ public class PlayerShield : MonoBehaviour, ICollidesWithProjectiles {
 
     private void FixedUpdate() {
 
-        if (Input.GetButton(player1 ? "p1 x" : "p2 x")) {
-            if (!on) {
-                on = true;
-                currentDuration = 0;
-                child.SetActive(true);
-            }
+        if (ComboManager.State == ComboManager.ComboState.ShieldStrike) {
+            transform.up = transform.parent.up;
         }
-        else {
-            if (on && currentDuration > minimumOnDuration) {
-                on = false;
-                child.SetActive(false);
-            }
-        }
-
-        if (on) {
+        else if (on) {
             if (player1) {
                 transform.up = Vector3.RotateTowards(transform.parent.right,
                                                      new Vector3(Input.GetAxis("p1 left horizontal"), Input.GetAxis("p1 left vertical"), 0).normalized,
@@ -54,9 +43,32 @@ public class PlayerShield : MonoBehaviour, ICollidesWithProjectiles {
             }
             currentDuration += Time.fixedDeltaTime;
         }
+
+        if (Input.GetButton(player1 ? "p1 x" : "p2 x")
+            && ComboManager.State != ComboManager.ComboState.BulletSpinClock
+            && ComboManager.State != ComboManager.ComboState.BulletSpinAntiC
+            && ComboManager.State != ComboManager.ComboState.ShipOfTheLine
+            && ComboManager.State != ComboManager.ComboState.Fortress) {
+            if (!on) {
+                on = true;
+                currentDuration = 0;
+                child.SetActive(true);
+            }
+        }
+        else {
+            if (on && currentDuration > minimumOnDuration) {
+                on = false;
+                child.SetActive(false);
+            }
+        }
     }
 
     public bool ReceiveProjectile(Projectile p) {
-        return !p.isPlayerProjectile;
+        return on && !p.isPlayerProjectile;
+    }
+
+    public void Reset() {
+        on = false;
+        child.SetActive(false);
     }
 }
