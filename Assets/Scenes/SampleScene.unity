@@ -837,6 +837,83 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &747287782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 747287783}
+  - component: {fileID: 747287786}
+  - component: {fileID: 747287785}
+  - component: {fileID: 747287784}
+  m_Layer: 0
+  m_Name: ShieldBashDamage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &747287783
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747287782}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1640620140}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &747287784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747287782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41859a823a4b33f488b86a9bf7beafd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &747287785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747287782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 333fb9d97ded03a4aa2c9e5349e01fa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerProjectile: 1
+  destroyOnContact: 0
+  damage: 100
+  damagePerSecond: 0
+--- !u!58 &747287786
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747287782}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  serializedVersion: 2
+  m_Radius: 0.35
 --- !u!1 &780472303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,7 +1276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da2e8ceddf1f60409b025246aff0188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: 0
 --- !u!68 &1077097252
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -1822,7 +1898,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da2e8ceddf1f60409b025246aff0188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: 1
 --- !u!68 &1525090048
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -2339,6 +2414,7 @@ Transform:
   - {fileID: 916260669}
   - {fileID: 1077097250}
   - {fileID: 1525090046}
+  - {fileID: 747287783}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2477,6 +2553,7 @@ MonoBehaviour:
   p2Shield: {fileID: 1184847880}
   p1BigShield: {fileID: 1525090047}
   p2BigShield: {fileID: 1077097251}
+  shieldBashDamage: {fileID: 747287784}
 --- !u!1 &1641245143
 GameObject:
   m_ObjectHideFlags: 0

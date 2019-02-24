@@ -19,6 +19,7 @@ public class Projectile : MonoBehaviour {
     }
 
     public void OnTriggerStay2D(Collider2D collider) {
+        if (damagePerSecond < Mathf.Epsilon) return;
         ICollidesWithProjectiles target = collider.GetComponent<ICollidesWithProjectiles>();
         if (target != null) {
             target.ReceiveProjectile(this);

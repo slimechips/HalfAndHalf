@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigShield : MonoBehaviour, ICollidesWithProjectiles {
-
-    //[SerializeField] private bool player1 = true;
-    [System.NonSerialized] public float timeToSelfDisable = 5f;
+public class ShieldBash : MonoBehaviour {
+    
+    [System.NonSerialized] public float timeToSelfDisable = -1f;
 
     private void FixedUpdate() {
 
@@ -15,9 +14,5 @@ public class BigShield : MonoBehaviour, ICollidesWithProjectiles {
         else {
             timeToSelfDisable -= Time.fixedDeltaTime;
         }
-    }
-
-    public bool ReceiveProjectile(Projectile p) {
-        return !p.isPlayerProjectile;
     }
 }

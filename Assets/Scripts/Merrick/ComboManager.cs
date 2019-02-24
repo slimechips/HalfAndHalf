@@ -32,7 +32,7 @@ public class ComboManager : MonoBehaviour {
     private float p2ButtonTime = 1;
 
     private float timer = 0;
-
+    
     private new Rigidbody2D rigidbody;
     private float savedDrag;
     private float savedAngularDrag;
@@ -49,11 +49,13 @@ public class ComboManager : MonoBehaviour {
     [SerializeField] private BigShield p1BigShield = null;
     [SerializeField] private BigShield p2BigShield = null;
 
+    [SerializeField] private ShieldBash shieldBashDamage = null;
+
     private void Start() {
         State = ComboState.None; // should be using singleton here but i'm a lazy ass
         rigidbody = transform.GetComponent<Rigidbody2D>();
         if (rigidbody == null) {
-            Debug.LogWarning("the parent of " + gameObject.name + " does not have a rigidbody, self-deleting");
+            Debug.LogWarning(gameObject.name + " does not have a rigidbody, self-deleting");
             Destroy(this);
         }
         savedDrag = rigidbody.drag;
@@ -72,6 +74,8 @@ public class ComboManager : MonoBehaviour {
 
         if (State == ComboState.None) {
 
+            PlayerShip.playerShip.energy += 5 * Time.fixedDeltaTime;
+
             float angle1 = Vector3.Angle(new Vector3(Input.GetAxis("p1 left horizontal"), Input.GetAxis("p1 left vertical"), 0), transform.up);
             float angle2 = Vector3.Angle(new Vector3(Input.GetAxis("p2 left horizontal"), Input.GetAxis("p2 left vertical"), 0), transform.up);
             Debug.Log(angle1 + ", " + angle2 + ", " + (angle1 < 25 && angle2 < 25)
@@ -80,47 +84,62 @@ public class ComboManager : MonoBehaviour {
                      && p2LastButton == Button.y && p2ButtonTime < 0.25f*/);
 
 
-            if (angle1 < 25 && angle2 > 155
+            if (PlayerShip.playerShip.energy >= 70
+                && angle1 < 25 && angle2 > 155
                 && p1LastButton == Button.y && p1ButtonTime < 0.25f
                 && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
+                PlayerShip.playerShip.energy -= 70;
                 BulletSpin(true);
             }
-            else if (angle2 < 25 && angle1 > 155
+            else if (PlayerShip.playerShip.energy >= 70
+                     && angle2 < 25 && angle1 > 155
                      && p2LastButton == Button.y && p2ButtonTime < 0.25f
                      && p1LastButton == Button.a && p1ButtonTime < 0.25f) {
+                PlayerShip.playerShip.energy -= 70;
                 BulletSpin(false);
             }
-            else if (angle1 < 30 && angle2 < 30
+            else if (PlayerShip.playerShip.energy >= 30
+                     && angle1 < 30 && angle2 < 30
                      && Input.GetButton("p1 x") && Input.GetButton("p2 x")
                      && p1LastButton == Button.y && p1ButtonTime < 0.25f
                      && p2LastButton == Button.y && p2ButtonTime < 0.25f) {
+                PlayerShip.playerShip.energy -= 30;
                 ShieldStrike();
                 Debug.Log("shieldbash");
             }
-            else if (angle1 < 115 && angle2 < 115
+            else if (PlayerShip.playerShip.energy >= 80
+                     && angle1 < 115 && angle2 < 115
                      && angle1 > 65 && angle2 > 65
                      && Input.GetButton("p1 a") && Input.GetButton("p2 a")
                      && p1LastButton == Button.a && p1ButtonTime < 0.25f
                      && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
+                PlayerShip.playerShip.energy -= 80;
                 ShipOfTheLine(); // controls are awkward, may change
                 Debug.Log("ship");
             }
-            else if (p1LastButton == Button.x && p1ButtonTime < 0.15f
+            else if (PlayerShip.playerShip.energy >= 40
+                     && p1LastButton == Button.x && p1ButtonTime < 0.15f
                      && p2LastButton == Button.x && p2ButtonTime < 0.15f) {
+                PlayerShip.playerShip.energy -= 40;
                 Fortress(); // window is shorter to avoid triggering when trying to do shield strike
             }
-            else if (Input.GetButton("p1 x")
+            else if (PlayerShip.playerShip.energy >= 20
+                     && Input.GetButton("p1 x")
                      && p1LastButton == Button.a && p1ButtonTime < 0.25f
                      && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
+                PlayerShip.playerShip.energy -= 20;
                 SwordAndBoard(true);
             }
-            else if (Input.GetButton("p2 x")
+            else if (PlayerShip.playerShip.energy >= 20
+                     && Input.GetButton("p2 x")
                      && p1LastButton == Button.a && p1ButtonTime < 0.25f
                      && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
+                PlayerShip.playerShip.energy -= 20;
                 SwordAndBoard(false);
             }
         }
         else if (State == ComboState.Cooldown) {
+            PlayerShip.playerShip.energy += 5 * Time.fixedDeltaTime;
             timer -= Time.deltaTime;
             if (timer < 0) State = ComboState.None;
         }
@@ -130,6 +149,7 @@ public class ComboManager : MonoBehaviour {
                 State = ComboState.Cooldown;
                 rigidbody.drag = savedDrag;
                 rigidbody.angularDrag = savedAngularDrag;
+                timer = 1f;
             }
         }
 
@@ -157,6 +177,8 @@ public class ComboManager : MonoBehaviour {
         rigidbody.drag = savedDrag * 10;
         rigidbody.velocity = transform.up * 50f;
         rigidbody.angularVelocity = 0;
+        shieldBashDamage.timeToSelfDisable = 1f;
+        shieldBashDamage.gameObject.SetActive(true);
         timer = 1f;
         State = ComboState.ShieldStrike;
     }

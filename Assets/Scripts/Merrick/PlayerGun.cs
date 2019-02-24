@@ -20,6 +20,12 @@ public class PlayerGun : MonoBehaviour {
             else if (ComboManager.State == ComboManager.ComboState.ShipOfTheLine) {
                 return 0.04f;
             }
+            else if (player1 && ComboManager.State == ComboManager.ComboState.SwordAndBoardP1) {
+                return 0.04f;
+            }
+            else if (!player1 && ComboManager.State == ComboManager.ComboState.SwordAndBoardP2) {
+                return 0.04f;
+            }
             else return _period;
         }
         set {

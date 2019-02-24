@@ -13,6 +13,7 @@ public class HighscoreTable : MonoBehaviour
 
     private void Awake()
     {
+        SceneManager.LoadScene("SampleScene");
         entryContainer = transform.Find("highscoreEntryContainer");
         entryTemplate = entryContainer.Find("highscoreEntryTemplate");
 
@@ -26,25 +27,25 @@ public class HighscoreTable : MonoBehaviour
             new HighscoreEntry{ score = 11411, name = "ZZZ"},
         };*/
 
-        string jsonString = PlayerPrefs.GetString("highscoreTable");
-        Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
-        //Debug.Log(highscores);
-        //highscores.pritnsize();
+        //string jsonString = PlayerPrefs.GetString("highscoreTable");
+        //Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+        ////Debug.Log(highscores);
+        ////highscores.pritnsize();
 
-        // Sort entry list by Score
-        for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
-        {
-            for (int j = i + 1; j < highscores.highscoreEntryList.Count; j++)
-            {
-                if (highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score)
-                {
-                    //swap
-                    HighscoreEntry tmp = highscores.highscoreEntryList[i];
-                    highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
-                    highscores.highscoreEntryList[j] = tmp;
-                }
-            }
-        }
+        //// Sort entry list by Score
+        //for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
+        //{
+        //    for (int j = i + 1; j < highscores.highscoreEntryList.Count; j++)
+        //    {
+        //        if (highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score)
+        //        {
+        //            //swap
+        //            HighscoreEntry tmp = highscores.highscoreEntryList[i];
+        //            highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
+        //            highscores.highscoreEntryList[j] = tmp;
+        //        }
+        //    }
+        //}
 
 
 
@@ -58,7 +59,7 @@ public class HighscoreTable : MonoBehaviour
 
         for (int i = 0; i < 8; i++)
         {
-            CreateHighscoreEntryTransform(highscores.highscoreEntryList[i], entryContainer, highscoreEntryTransformList);
+            //CreateHighscoreEntryTransform(highscores.highscoreEntryList[i], entryContainer, highscoreEntryTransformList);
         }
         
         /*Highscores highscores = new Highscores { highscoreEntryList = highscoreEntryList };
