@@ -163,6 +163,7 @@ public class EnemyManager : MonoBehaviour
                 //player.GetComponent<PlayerShip>().addScore(15);
                 break;
 
+
             case "kamikaze":
                 curKamikazes--;
                 //player.GetComponent<PlayerShip>().addScore(20);
