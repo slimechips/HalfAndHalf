@@ -54,8 +54,9 @@ public class PlayerShip : Ship
         playerShip = this;
     }
 
-    private void Update()
+    private new void Update()
     {
+        base.Update();
         // alternate between the different images for thrusters
         if (Input.GetAxis("p1 b") > 0.1f && Input.GetAxis("p2 b") == 0)
         {
@@ -132,5 +133,12 @@ public class PlayerShip : Ship
     public override void Shoot()
     {
         throw new System.NotImplementedException();
+    }
+
+    public new void CollideWithWall(Wall wall)
+    {
+        base.CollideWithWall(wall);
+        Damage(10);
+        // TODO: Add effect for Player Crash
     }
 }

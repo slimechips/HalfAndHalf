@@ -2371,6 +2371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxhealth: 100
+  _wallCollideDistance: 5
   playerSprites:
   - {fileID: 21300008, guid: 143ebf840bf479d47b56ad1caf5bea81, type: 3}
   - {fileID: 21300006, guid: 143ebf840bf479d47b56ad1caf5bea81, type: 3}
@@ -2710,6 +2711,7 @@ GameObject:
   - component: {fileID: 1682507311}
   - component: {fileID: 1682507310}
   - component: {fileID: 1682507312}
+  - component: {fileID: 1682507313}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -4252,12 +4254,24 @@ TilemapCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!114 &1682507313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682507308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7348f7e47a186d40ba9638e8fa9073f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1682838739
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles {
+public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles, ICollideWithWalls {
 
     [SerializeField] private float _maxhealth = 100;
+    [SerializeField] private float _wallCollideDistance = 5;
+
     public float maxHealth {
         get { return _maxhealth; }
     }
@@ -48,7 +50,22 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles {
         return _health - prevhealth;
     }
 
+    protected virtual void Update()
+    {
+
+    }
+
     public abstract void Shoot();
     public abstract void OnDeath(); // child classes must implement
     public abstract bool ReceiveProjectile(Projectile p);
+
+    public void CollideWithWall(Wall wall)
+    {
+        RestoreLocation();
+    }
+
+    public void RestoreLocation()
+    {
+        this.transform.Translate(-this.transform.up * _wallCollideDistance, Space.World);
+    }
 }

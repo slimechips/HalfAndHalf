@@ -78,10 +78,10 @@ public class ComboManager : MonoBehaviour {
 
             float angle1 = Vector3.Angle(new Vector3(Input.GetAxis("p1 left horizontal"), Input.GetAxis("p1 left vertical"), 0), transform.up);
             float angle2 = Vector3.Angle(new Vector3(Input.GetAxis("p2 left horizontal"), Input.GetAxis("p2 left vertical"), 0), transform.up);
-            Debug.Log(angle1 + ", " + angle2 + ", " + (angle1 < 25 && angle2 < 25)
-                     /*&& Input.GetButton("p1 x") && Input.GetButton("p2 x")
-                     && p1LastButton == Button.y && p1ButtonTime < 0.25f
-                     && p2LastButton == Button.y && p2ButtonTime < 0.25f*/);
+            //Debug.Log(angle1 + ", " + angle2 + ", " + (angle1 < 25 && angle2 < 25)
+            //         /*&& Input.GetButton("p1 x") && Input.GetButton("p2 x")
+            //         && p1LastButton == Button.y && p1ButtonTime < 0.25f
+            //         && p2LastButton == Button.y && p2ButtonTime < 0.25f*/);
 
 
             if (PlayerShip.playerShip.energy >= 70
