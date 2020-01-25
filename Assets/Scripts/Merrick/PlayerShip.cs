@@ -7,6 +7,7 @@ public class PlayerShip : Ship
 {
 
     public static PlayerShip playerShip = null;
+    [SerializeField] private bool godMode = false;
 
     // reference to sprites
     public Sprite[] playerSprites;
@@ -22,6 +23,15 @@ public class PlayerShip : Ship
     AudioSource playerAudio;                                    // Reference to the AudioSource component.
     bool isDead;                                                // Whether the player is dead.
     bool damaged;                                               // True when the player gets damaged.
+
+    public override float health
+    {
+        get
+        {
+            if (!godMode) return base.health;
+            else return maxHealth;
+        }
+    }
 
     private float _score = 0;
     public float score
@@ -54,8 +64,9 @@ public class PlayerShip : Ship
         playerShip = this;
     }
 
-    private void Update()
+    private new void Update()
     {
+        base.Update();
         // alternate between the different images for thrusters
         if (Input.GetAxis("p1 b") > 0.1f && Input.GetAxis("p2 b") == 0)
         {
@@ -101,6 +112,7 @@ public class PlayerShip : Ship
 
     public override void OnDeath()
     {
+        Debug.Log("player died");
         // spawn explosions
         // trigger defeat screen
         GameObject go = Instantiate(Resources.Load("Prefabs/Explosion") as GameObject);
@@ -132,5 +144,12 @@ public class PlayerShip : Ship
     public override void Shoot()
     {
         throw new System.NotImplementedException();
+    }
+
+    public new void CollideWithWall(Wall wall)
+    {
+        base.CollideWithWall(wall);
+        Damage(10);
+        // TODO: Add effect for Player Crash
     }
 }

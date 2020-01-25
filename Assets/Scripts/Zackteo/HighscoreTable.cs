@@ -10,10 +10,11 @@ public class HighscoreTable : MonoBehaviour
     private Transform entryTemplate;
     private List<HighscoreEntry> highscoreEntryList;
     private List<Transform> highscoreEntryTransformList;
+    [SerializeField] private string scene = "SampleScene";
 
     private void Awake()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene(scene);
         entryContainer = transform.Find("highscoreEntryContainer");
         entryTemplate = entryContainer.Find("highscoreEntryTemplate");
 

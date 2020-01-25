@@ -93,7 +93,7 @@ public class EnemyShip : Ship
         GameObject go = Instantiate(Resources.Load("Prefabs/Explosion") as GameObject);
         go.transform.position = transform.position;
         Destroy(gameObject);
-
+        EnemyManager.current.UpdateCurEnemies(this);
         player.GetComponent<PlayerShip>().addScore(reward);
 
     }

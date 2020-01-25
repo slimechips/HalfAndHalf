@@ -6,7 +6,7 @@ public class GameOverManager : MonoBehaviour
 {
     public PlayerShip playerShip;       // Reference to the player's health.
     public float restartDelay = 5f;         // Time to wait before restarting the level
-
+    [SerializeField] private string scene = "HighscoreTable";
 
     Animator anim;                          // Reference to the animator component.
     float restartTimer;                     // Timer to count up to restarting the level
@@ -35,7 +35,7 @@ public class GameOverManager : MonoBehaviour
             if (restartTimer >= restartDelay)
             {
                 // .. then reload the currently loaded level.
-                SceneManager.LoadScene("HighscoreTable");
+                SceneManager.LoadScene(scene);
             }
         }
     }
