@@ -155,11 +155,12 @@ public class EnemyManager : MonoBehaviour
     public bool Spawner()
     {
         List<string> enemies = new List<string>();
-        if (curChasers < maxChasers) enemies.Add("chaser");
-        if (curShooters < maxShooters) enemies.Add("shooter");
-        if (curKamikazes < maxKamikazes) enemies.Add("kamikaze");
-        if (curRapids < maxRapids) enemies.Add("rapid");
+        if (curChasers < maxChasers && spawnedChasers < totalChasers) enemies.Add("chaser");
+        if (curShooters < maxShooters && spawnedShooters < totalShooters) enemies.Add("shooter");
+        if (curKamikazes < maxKamikazes && spawnedKamikazes < totalKamikazes) enemies.Add("kamikaze");
+        if (curRapids < maxRapids && spawnedRapids < totalRapids) enemies.Add("rapid");
 
+        if (enemies.Count == 0) return false;
         int choice = Random.Range(0, enemies.Count);
 
         return SpawnEnemy(enemies[choice]);
