@@ -24,7 +24,7 @@ public class PlayerShip : Ship
     bool isDead;                                                // Whether the player is dead.
     bool damaged;                                               // True when the player gets damaged.
 
-    public new float health
+    public override float health
     {
         get
         {
@@ -112,6 +112,7 @@ public class PlayerShip : Ship
 
     public override void OnDeath()
     {
+        Debug.Log("player died");
         // spawn explosions
         // trigger defeat screen
         GameObject go = Instantiate(Resources.Load("Prefabs/Explosion") as GameObject);

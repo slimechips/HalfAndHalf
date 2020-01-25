@@ -6,12 +6,13 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles, ICollideWi
 
     [SerializeField] private float _maxhealth = 100;
     [SerializeField] private float _wallCollideDistance = 5;
+    private bool death = false;
 
     public float maxHealth {
         get { return _maxhealth; }
     }
     private float _health = 100;
-    public float health {
+    public virtual float health {
         get { return _health; }
         set { _health = value; }
     } // To change this, call the Damage or Heal functions
@@ -37,7 +38,11 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles, ICollideWi
         health -= amt;
         if (health <= 0) {
             health = 0;
-            OnDeath();
+            if (!death)
+            {
+                OnDeath();
+                death = true;
+            }
         }
         return prevhealth - health;
     }
@@ -73,7 +78,6 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles, ICollideWi
         if (EnemyManager.current.WithinBounds(restoreLoc) == ValidCoord.X_LARGE)
         {
             restoreLoc.x = 2 * EnemyManager.current.WorldXMax - restoreLoc.x;
-            Debug.Log(restoreLoc);
 
         }
 

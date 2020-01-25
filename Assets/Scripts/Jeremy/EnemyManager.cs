@@ -41,7 +41,7 @@ public class EnemyManager : MonoBehaviour
             else
             {
                 _curStage = value;
-                curStageNumber = current.stageList.IndexOf(value);
+                curStageNumber = current.stageList.IndexOf(value) + 1;
                 current.LoadStage(value);
                 value.StartLevel(current);
             }
@@ -246,33 +246,23 @@ public class EnemyManager : MonoBehaviour
         return true;
     }
 
-    public void OnDeath(string enemy)
+    public void UpdateCurEnemies(EnemyShip enemy)
     {
-        switch (enemy)
+        if (enemy is Chaser)
         {
-            default:
-                break;
-
-            case "chaser":
-                curChasers--;
-                //player.GetComponent<PlayerShip>().addScore(10);
-                break;
-
-            case "shooter":
-                curShooters--;
-                //player.GetComponent<PlayerShip>().addScore(15);
-                break;
-
-
-            case "kamikaze":
-                curKamikazes--;
-                //player.GetComponent<PlayerShip>().addScore(20);
-                break;
-
-            case "rapid":
-                curRapids--;
-               // player.GetComponent<PlayerShip>().addScore(25);
-                break;
+            curChasers--;
+        }
+        else if (enemy is Shooter)
+        {
+            curShooters--;
+        }
+        else if (enemy is Kamikaze)
+        {
+            curKamikazes--;
+        }
+        else if (enemy is Rapid)
+        {
+            curRapids--;
         }
     }
 
@@ -291,7 +281,7 @@ public class EnemyManager : MonoBehaviour
             case Stage.Result.IN_PROGRESS:
                 return false;
             case Stage.Result.FINISHED:
-                curStage = stageList[curStageNumber + 1];
+                GoNextStage();
                 return true;
             default:
                 return false;
@@ -300,7 +290,7 @@ public class EnemyManager : MonoBehaviour
 
     private Stage.Result DefaultEnemyCheck()
     {
-        if (curChasers == 0 && maxKamikazes == 0 && maxRapids == 0 && maxShooters == 0
+        if (curChasers == 0 && curKamikazes == 0 && curRapids == 0 && curShooters == 0
             && spawnedChasers >= totalChasers && spawnedKamikazes >= totalKamikazes
             && spawnedRapids >= totalRapids && spawnedShooters >= totalShooters)
         {
@@ -309,6 +299,15 @@ public class EnemyManager : MonoBehaviour
         return Stage.Result.IN_PROGRESS;
     }
 
+    private void GoNextStage()
+    {
+        if (curStageNumber >= stageList.Count)
+        {
+            Debug.Log("Insert Finish Screen");
+            return;
+        }
+        curStage = stageList[curStageNumber + 1];
+    }
 
     public ValidCoord WithinBounds(Vector3 vector3)
     {
