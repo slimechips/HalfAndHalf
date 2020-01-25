@@ -7,6 +7,7 @@ public class PlayerShip : Ship
 {
 
     public static PlayerShip playerShip = null;
+    [SerializeField] private bool godMode = false;
 
     // reference to sprites
     public Sprite[] playerSprites;
@@ -22,6 +23,15 @@ public class PlayerShip : Ship
     AudioSource playerAudio;                                    // Reference to the AudioSource component.
     bool isDead;                                                // Whether the player is dead.
     bool damaged;                                               // True when the player gets damaged.
+
+    public new float health
+    {
+        get
+        {
+            if (!godMode) return base.health;
+            else return maxHealth;
+        }
+    }
 
     private float _score = 0;
     public float score

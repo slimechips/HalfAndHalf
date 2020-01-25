@@ -13,6 +13,7 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles, ICollideWi
     private float _health = 100;
     public float health {
         get { return _health; }
+        set { _health = value; }
     } // To change this, call the Damage or Heal functions
 
     [System.NonSerialized] public new Rigidbody2D rigidbody;
@@ -28,26 +29,26 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles, ICollideWi
     public void BaseInitialise(float maxHealth)
     {
         this._maxhealth = maxHealth;
-        this._health = maxHealth;
+        this.health = maxHealth;
     }
 
     public float Damage(float amt) {
-        float prevhealth = _health;
-        _health -= amt;
-        if (_health <= 0) {
-            _health = 0;
+        float prevhealth = health;
+        health -= amt;
+        if (health <= 0) {
+            health = 0;
             OnDeath();
         }
-        return prevhealth - _health;
+        return prevhealth - health;
     }
 
     public float Heal(float amt) {
-        float prevhealth = _health;
-        _health += amt;
-        if (_health >= _maxhealth) {
-            _health = _maxhealth;
+        float prevhealth = health;
+        health += amt;
+        if (health >= _maxhealth) {
+            health = _maxhealth;
         }
-        return _health - prevhealth;
+        return health - prevhealth;
     }
 
     protected virtual void Update()
@@ -66,6 +67,44 @@ public abstract class Ship : MonoBehaviour, ICollidesWithProjectiles, ICollideWi
 
     public void RestoreLocation()
     {
-        this.transform.Translate(-this.transform.up * _wallCollideDistance, Space.World);
+        Vector3 restoreTranslate = -this.transform.up * _wallCollideDistance;
+        Vector3 restoreLoc = this.transform.position + restoreTranslate;
+        Debug.Log(restoreLoc);
+        if (EnemyManager.current.WithinBounds(restoreLoc) == ValidCoord.X_LARGE)
+        {
+            restoreLoc.x = 2 * EnemyManager.current.WorldXMax - restoreLoc.x;
+            Debug.Log(restoreLoc);
+
+        }
+
+        if (EnemyManager.current.WithinBounds(restoreLoc) == ValidCoord.X_SMALL)
+        {
+            restoreLoc.x = 2 * EnemyManager.current.WorldXMin - restoreLoc.x;
+            Debug.Log(restoreLoc);
+
+        }
+
+        if (EnemyManager.current.WithinBounds(restoreLoc) == ValidCoord.Y_LARGE)
+        {
+            restoreLoc.y = 2 * EnemyManager.current.WorldYMax - restoreLoc.y;
+            Debug.Log(restoreLoc);
+
+        }
+
+        if (EnemyManager.current.WithinBounds(restoreLoc) == ValidCoord.Y_SMALL)
+        {
+            restoreLoc.y = 2 * EnemyManager.current.WorldYMin - restoreLoc.y;
+            Debug.Log(restoreLoc);
+
+        }
+
+        if (EnemyManager.current.WithinBounds(restoreLoc) != ValidCoord.VALID)
+        {
+            restoreLoc = new Vector3(0, 0, 0);
+            Debug.Log(restoreLoc);
+
+        }
+
+        this.transform.position = restoreLoc;
     }
 }

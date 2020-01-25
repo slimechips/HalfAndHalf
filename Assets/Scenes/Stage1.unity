@@ -354,6 +354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 354783932}
   - component: {fileID: 354783931}
+  - component: {fileID: 354783933}
   m_Layer: 0
   m_Name: _Managers
   m_TagString: Untagged
@@ -374,10 +375,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1640620135}
+  tilemap: {fileID: 1682507311}
+  tileMapXMax: 24
+  tileMapXMin: -26
+  tileMapYMax: 11
+  tileMapYMin: -13
+  stageList:
+  - {fileID: 354783933}
   maxChasers: 10
   maxShooters: 7
   maxKamikazes: 5
   maxRapids: 0
+  totalChasers: 0
+  totalShooters: 0
+  totalKamikazes: 0
+  totalRapids: 0
+  spawnedChasers: 0
+  spawnedShooters: 0
+  spawnedKamikazes: 0
+  spawnedRapids: 0
+  curChasers: 0
+  curShooters: 0
+  curKamikazes: 0
+  curRapids: 0
   chaserStats:
   - 20
   - 5
@@ -424,6 +444,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &354783933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354783930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76875b1aaa7bf8e4a9142a64fab5f272, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxChasers: 1
+  _maxShooters: 1
+  _maxKamikazes: 2
+  _maxRapids: 1
+  _totalChasers: 4
+  _totalShooters: 4
+  _totalKamikazes: 4
+  _totalRapids: 4
+  _stageType: 0
 --- !u!1 &379311754
 GameObject:
   m_ObjectHideFlags: 0
@@ -2372,6 +2413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxhealth: 100
   _wallCollideDistance: 5
+  godMode: 1
   playerSprites:
   - {fileID: 21300008, guid: 143ebf840bf479d47b56ad1caf5bea81, type: 3}
   - {fileID: 21300006, guid: 143ebf840bf479d47b56ad1caf5bea81, type: 3}
@@ -4196,9 +4238,13 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 156
     m_Data: {fileID: 11400000, guid: 397df7ba26eaad7479dd954be27d4bda, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 156
     m_Data: {fileID: 21300000, guid: ee8261317c1ff734daa9da91d24312b3, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 156
     m_Data:

@@ -5,9 +5,59 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public GameObject player;
+    [SerializeField] public UnityEngine.Tilemaps.Tilemap tilemap;
+    [SerializeField] public int tileMapXMax, tileMapXMin, tileMapYMax, tileMapYMin;
+    public float WorldXMax { get; private set; }
+    public float WorldXMin { get; private set; }
+    public float WorldYMax { get; private set; }
+    public float WorldYMin { get; private set; }
+    public List<Stage> stageList = new List<Stage>();
+
+    private static EnemyManager _current;
+    public static EnemyManager current {
+        get
+        {
+            if (_current == null)
+            {
+                throw new System.NullReferenceException();
+            }
+            return _current;
+        }
+        set
+        {
+            _current = value;
+        }
+    }
+
+    private static Stage _curStage;
+    private static Stage curStage
+    {
+        set
+        {
+            if (current.stageList.Count == 0)
+            {
+                _curStage = null;
+            }
+            else
+            {
+                _curStage = value;
+                curStageNumber = current.stageList.IndexOf(value);
+                current.LoadStage(value);
+                value.StartLevel(current);
+            }
+        }
+        get { return _curStage; }
+    }
+    [SerializeField] private static int curStageNumber;
 
     [SerializeField]
     private int maxChasers, maxShooters, maxKamikazes, maxRapids;
+    [SerializeField]
+    private int totalChasers, totalShooters, totalKamikazes, totalRapids;
+    [SerializeField]
+    private int spawnedChasers, spawnedShooters, spawnedKamikazes, spawnedRapids;
+
+    [SerializeField]
     private int curChasers, curShooters, curKamikazes, curRapids;
 
     // store in array: maxHealth, rotSpd, moveSpd, shotSpd, shootRange, shootDelay
@@ -22,15 +72,16 @@ public class EnemyManager : MonoBehaviour
 
     void Awake()
     {
+        LoadPrefabs();
+        current = this;
+        SetSpawningZones();
+        curStage = stageList[0];
         //chasers = new List<GameObject>();
         //shooters = new List<GameObject>();
         //kamikazes = new List<GameObject>();
 
         // do the resources.load at the start to save memory
-        chaserPf = Resources.Load("Prefabs/Chaser", typeof(GameObject));
-        shooterPf = Resources.Load("Prefabs/Shooter", typeof(GameObject));
-        kamikazePf = Resources.Load("Prefabs/Kamikaze", typeof(GameObject));
-        rapidPf = Resources.Load("Prefabs/Rapid", typeof(GameObject));
+
     }
 
     private void Start()
@@ -46,8 +97,9 @@ public class EnemyManager : MonoBehaviour
         }
         else
         {
+            TriggerStageCheck();
             timer = enemySpawnTime;
-            Spawner();
+            curStage.SpawnEnemies(current);
         }
 
         if(diffTimer > 0)
@@ -66,7 +118,41 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void Spawner()
+    private void LoadPrefabs()
+    {
+        chaserPf = Resources.Load("Prefabs/Chaser", typeof(GameObject));
+        shooterPf = Resources.Load("Prefabs/Shooter", typeof(GameObject));
+        kamikazePf = Resources.Load("Prefabs/Kamikaze", typeof(GameObject));
+        rapidPf = Resources.Load("Prefabs/Rapid", typeof(GameObject));
+    }
+
+    private void SetSpawningZones()
+    {
+        Vector3 bottomLeft = tilemap.GetCellCenterWorld(new Vector3Int(tileMapXMin, tileMapYMin, 0));
+        Vector3 topRight = tilemap.GetCellCenterWorld(new Vector3Int(tileMapXMax, tileMapYMax, 0));
+        WorldXMin = bottomLeft.x;
+        WorldYMin = bottomLeft.y;
+        WorldXMax = topRight.x;
+        WorldYMax = topRight.y;
+    }
+
+    private void LoadStage(Stage stage)
+    {
+        maxChasers = stage.MaxChasers;
+        totalChasers = stage.TotalChasers;
+        spawnedChasers = 0;
+        maxKamikazes = stage.MaxKamikazes;
+        totalKamikazes = stage.TotalKamikazes;
+        spawnedKamikazes = 0;
+        maxRapids = stage.MaxRapids;
+        totalRapids = stage.TotalRapids;
+        spawnedRapids = 0;
+        maxShooters = stage.MaxShooters;
+        totalShooters = stage.TotalShooters;
+        spawnedShooters = 0;
+    }
+
+    public bool Spawner()
     {
         List<string> enemies = new List<string>();
         if (curChasers < maxChasers) enemies.Add("chaser");
@@ -76,74 +162,87 @@ public class EnemyManager : MonoBehaviour
 
         int choice = Random.Range(0, enemies.Count);
 
-        SpawnEnemy(enemies[choice]);
+        return SpawnEnemy(enemies[choice]);
 
     }
 
-    private void SpawnEnemy(string enemy)
+    private bool SpawnEnemy(string enemy)
     {
         GameObject go = null;
+
+        Vector3 camPos;
+        int maxSpawnAttemptsLeft = 10;
+        do
+        {
+            --maxSpawnAttemptsLeft;
+            // randomly choose a point along the bounds
+            // first choose an axis
+            float x_coord = 0;
+            float y_coord = 0;
+            int axis = Random.Range(0, 4);
+            if (axis == 0)
+            {
+                // btm
+                x_coord = Random.Range(0, (float)Camera.main.pixelWidth);
+            }
+            else if (axis == 1)
+            {
+                // left
+                y_coord = Random.Range(0, (float)Camera.main.pixelHeight);
+            }
+            else if (axis == 2)
+            {
+                // top
+                x_coord = Random.Range(0, (float)Camera.main.pixelWidth);
+                y_coord = Camera.main.pixelHeight;
+            }
+            else
+            {
+                // right
+                x_coord = Camera.main.pixelWidth;
+                y_coord = Random.Range(0, (float)Camera.main.pixelHeight);
+            }
+            camPos = Camera.main.ScreenToWorldPoint(new Vector3(x_coord, y_coord, 0));
+        } while (WithinBounds(camPos) != ValidCoord.VALID && maxSpawnAttemptsLeft > 0);
+
+        if (WithinBounds(camPos) != ValidCoord.VALID) return false;
+
         switch (enemy)
         {
             default:
-                break;
+                return false;
 
             case "chaser":
                 go = Instantiate(chaserPf) as GameObject;
                 go.GetComponent<Chaser>().Initialise(player, gameObject, chaserStats);
                 curChasers++;
+                spawnedChasers++;
                 break;
 
             case "shooter":
                 go = Instantiate(shooterPf) as GameObject;
                 go.GetComponent<Shooter>().Initialise(player, gameObject, shooterStats);
                 curShooters++;
+                spawnedShooters++;
                 break;
 
             case "kamikaze":
                 go = Instantiate(kamikazePf) as GameObject;
                 go.GetComponent<Kamikaze>().Initialise(player, gameObject, kamikazeStats);
                 curKamikazes++;
+                spawnedKamikazes++;
                 break;
 
             case "rapid":
                 go = Instantiate(rapidPf) as GameObject;
                 go.GetComponent<Rapid>().Initialise(player, gameObject, rapidStats);
                 curRapids++;
+                spawnedRapids++;
                 break;
 
         }
-
-        // randomly choose a point along the bounds
-
-        // first choose an axis
-        float x_coord = 0;
-        float y_coord = 0;
-        int axis = Random.Range(0, 4);
-        if(axis == 0)
-        {
-            // btm
-            x_coord = Random.Range(0, (float)Camera.main.pixelWidth);
-        }
-        else if(axis == 1)
-        {
-            // left
-            y_coord = Random.Range(0, (float)Camera.main.pixelHeight);
-        }
-        else if(axis == 2)
-        {
-            // top
-            x_coord = Random.Range(0, (float)Camera.main.pixelWidth);
-            y_coord = Camera.main.pixelHeight;
-        }
-        else
-        {
-            // right
-            x_coord = Camera.main.pixelWidth;
-            y_coord = Random.Range(0, (float)Camera.main.pixelHeight);
-        }
-        Vector3 camPos = Camera.main.ScreenToWorldPoint(new Vector3(x_coord, y_coord, 0));
         go.transform.position = (Vector2)camPos;
+        return true;
     }
 
     public void OnDeath(string enemy)
@@ -175,4 +274,50 @@ public class EnemyManager : MonoBehaviour
                 break;
         }
     }
+
+
+    public bool TriggerStageCheck()
+    {
+        Stage.Result result = curStage.StageCheck();
+
+        if (result == Stage.Result.USE_DEFAULT)
+        {
+            result = DefaultEnemyCheck();
+        }
+
+        switch (result)
+        {
+            case Stage.Result.IN_PROGRESS:
+                return false;
+            case Stage.Result.FINISHED:
+                curStage = stageList[curStageNumber + 1];
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private Stage.Result DefaultEnemyCheck()
+    {
+        if (curChasers == 0 && maxKamikazes == 0 && maxRapids == 0 && maxShooters == 0
+            && spawnedChasers >= totalChasers && spawnedKamikazes >= totalKamikazes
+            && spawnedRapids >= totalRapids && spawnedShooters >= totalShooters)
+        {
+            return Stage.Result.FINISHED;
+        }
+        return Stage.Result.IN_PROGRESS;
+    }
+
+
+    public ValidCoord WithinBounds(Vector3 vector3)
+    {
+        if (vector3.x > WorldXMax) return ValidCoord.X_LARGE;
+        if (vector3.x < WorldXMin) return ValidCoord.X_SMALL;
+        if (vector3.y > WorldYMax) return ValidCoord.Y_LARGE;
+        if (vector3.y < WorldYMin) return ValidCoord.Y_SMALL;
+        return ValidCoord.VALID;
+    }
+
 }
+
+public enum ValidCoord { VALID, X_LARGE, X_SMALL, Y_LARGE, Y_SMALL }
