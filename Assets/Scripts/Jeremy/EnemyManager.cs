@@ -68,7 +68,8 @@ public class EnemyManager : MonoBehaviour
     //private List<GameObject> chasers, shooters, kamikazes;
 
     private float enemySpawnTime = 10f, timer = 5f;
-    private float diffTime = 5f, diffTimer = 5f;
+    private float diffTime, diffTimer;
+    private int diffCount = 0;
 
     void Awake()
     {
@@ -106,7 +107,7 @@ public class EnemyManager : MonoBehaviour
         {
             diffTimer -= Time.deltaTime;
         }
-        else
+        else if (diffCount > 0)
         {
             diffTimer = diffTime;
             enemySpawnTime -= 0.5f;
@@ -115,6 +116,7 @@ public class EnemyManager : MonoBehaviour
             maxShooters += 1;
             maxKamikazes += 1;
             maxRapids += 1;
+            diffCount--;
         }
     }
 
@@ -150,6 +152,9 @@ public class EnemyManager : MonoBehaviour
         maxShooters = stage.MaxShooters;
         totalShooters = stage.TotalShooters;
         spawnedShooters = 0;
+        diffTime = stage.MaxIncreaseInterval;
+        diffTimer = stage.MaxIncreaseInterval;
+        diffCount = stage.MaxIncreaseCount;
     }
 
     public bool Spawner()
@@ -306,7 +311,8 @@ public class EnemyManager : MonoBehaviour
             Debug.Log("Insert Finish Screen");
             return;
         }
-        curStage = stageList[curStageNumber + 1];
+        Debug.Log("Loading next stage");
+        curStage = stageList[curStageNumber];
     }
 
     public ValidCoord WithinBounds(Vector3 vector3)

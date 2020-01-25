@@ -16,6 +16,9 @@ public abstract class Stage: MonoBehaviour
     public abstract int MaxRapids { get; }
     public abstract int TotalRapids { get; }
 
+    public virtual float MaxIncreaseInterval { get { return 5f; } }
+    public virtual int MaxIncreaseCount { get { return 0; } }
+
     public abstract StageType StageType { get; }
 
     public void StartLevel(EnemyManager manager)
@@ -26,7 +29,7 @@ public abstract class Stage: MonoBehaviour
     public abstract bool SpawnEnemies(EnemyManager manager);
 
 
-    public Result StageCheck()
+    public virtual Result StageCheck()
     {
         return Result.USE_DEFAULT;
     }

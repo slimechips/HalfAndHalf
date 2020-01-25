@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stage1 : Stage
+public class Stage2 : Stage
 {
     [SerializeField] protected int _maxChasers, _maxShooters, _maxKamikazes, _maxRapids;
     [SerializeField] protected int _totalChasers, _totalShooters, _totalKamikazes, _totalRapids;
@@ -22,7 +22,7 @@ public class Stage1 : Stage
 
     public override int MaxRapids { get => _maxRapids; }
     public override int TotalRapids { get => _totalRapids; }
-    
+
     public override float MaxIncreaseInterval { get => _maxIncreaseInterval; }
     public override int MaxIncreaseCount { get => _maxIncreaseCount; }
     public override StageType StageType { get => _stageType; }
