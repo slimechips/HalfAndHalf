@@ -8,9 +8,9 @@ public class Kamikaze : EnemyShip
     private bool charged = false;
     private bool speedUp = false;
 
-    private float missedRange = 20f;
-    private float explodeRange = 1f;
-    private float chargeSpd = 7f;
+    [SerializeField] private float missedRange = 20f;
+    [SerializeField] private float explodeRange = 1f;
+    [SerializeField] private float chargeSpd = 7f;
 
     private Vector3 oldPos;
 

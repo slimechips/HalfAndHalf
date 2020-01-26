@@ -67,7 +67,7 @@ public class EnemyManager : MonoBehaviour
     private Object chaserPf, shooterPf, kamikazePf, rapidPf;
     //private List<GameObject> chasers, shooters, kamikazes;
 
-    private float enemySpawnTime = 10f, timer = 5f;
+    private float enemySpawnTime, timer;
     private float diffTime, diffTimer;
     private int diffCount = 0;
 
@@ -155,6 +155,8 @@ public class EnemyManager : MonoBehaviour
         diffTime = stage.MaxIncreaseInterval;
         diffTimer = stage.MaxIncreaseInterval;
         diffCount = stage.MaxIncreaseCount;
+        timer = stage.SpawnInterval;
+        enemySpawnTime = stage.SpawnInterval;
     }
 
     public bool Spawner()

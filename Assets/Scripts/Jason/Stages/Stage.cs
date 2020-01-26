@@ -18,6 +18,7 @@ public abstract class Stage: MonoBehaviour
 
     public virtual float MaxIncreaseInterval { get { return 5f; } }
     public virtual int MaxIncreaseCount { get { return 0; } }
+    public virtual float SpawnInterval { get { return 10f; } }
 
     public abstract StageType StageType { get; }
 
