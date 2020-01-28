@@ -30,7 +30,7 @@ public abstract class Stage: MonoBehaviour
     public abstract bool SpawnEnemies(EnemyManager manager);
 
 
-    public virtual Result StageCheck()
+    public virtual Result EnemyCheck()
     {
         return Result.USE_DEFAULT;
     }

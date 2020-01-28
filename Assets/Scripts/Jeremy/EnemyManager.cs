@@ -7,11 +7,12 @@ public class EnemyManager : MonoBehaviour
     public GameObject player;
     [SerializeField] public UnityEngine.Tilemaps.Tilemap tilemap;
     [SerializeField] public int tileMapXMax, tileMapXMin, tileMapYMax, tileMapYMin;
+    [SerializeField] private StageManager stageManager;
     public float WorldXMax { get; private set; }
     public float WorldXMin { get; private set; }
     public float WorldYMax { get; private set; }
     public float WorldYMin { get; private set; }
-    public List<Stage> stageList = new List<Stage>();
+    //public List<Stage> stageList = new List<Stage>();
 
     private static EnemyManager _current;
     public static EnemyManager current {
@@ -28,27 +29,27 @@ public class EnemyManager : MonoBehaviour
             _current = value;
         }
     }
-
-    private static Stage _curStage;
-    private static Stage curStage
-    {
-        set
-        {
-            if (current.stageList.Count == 0)
-            {
-                _curStage = null;
-            }
-            else
-            {
-                _curStage = value;
-                curStageNumber = current.stageList.IndexOf(value) + 1;
-                current.LoadStage(value);
-                value.StartLevel(current);
-            }
-        }
-        get { return _curStage; }
-    }
-    [SerializeField] private static int curStageNumber;
+    private Stage curStage { get { return stageManager.CurStage; } }
+    //private static Stage _curStage;
+    //private static Stage curStage
+    //{
+    //    set
+    //    {
+    //        if (current.stageList.Count == 0)
+    //        {
+    //            _curStage = null;
+    //        }
+    //        else
+    //        {
+    //            _curStage = value;
+    //            curStageNumber = current.stageList.IndexOf(value) + 1;
+    //            current.LoadStage(value);
+    //            value.StartLevel(current);
+    //        }
+    //    }
+    //    get { return _curStage; }
+    //}
+    //[SerializeField] private static int curStageNumber;
 
     [SerializeField]
     private int maxChasers, maxShooters, maxKamikazes, maxRapids;
@@ -76,7 +77,7 @@ public class EnemyManager : MonoBehaviour
         LoadPrefabs();
         current = this;
         SetSpawningZones();
-        curStage = stageList[0];
+        //curStage = stageList[0];
         //chasers = new List<GameObject>();
         //shooters = new List<GameObject>();
         //kamikazes = new List<GameObject>();
@@ -98,7 +99,7 @@ public class EnemyManager : MonoBehaviour
         }
         else
         {
-            TriggerStageCheck();
+            TriggerEnemyCheck();
             timer = enemySpawnTime;
             curStage.SpawnEnemies(current);
         }
@@ -138,7 +139,7 @@ public class EnemyManager : MonoBehaviour
         WorldYMax = topRight.y;
     }
 
-    private void LoadStage(Stage stage)
+    public void LoadStage(Stage stage)
     {
         maxChasers = stage.MaxChasers;
         totalChasers = stage.TotalChasers;
@@ -253,6 +254,27 @@ public class EnemyManager : MonoBehaviour
         return true;
     }
 
+    private bool TriggerEnemyCheck()
+    {
+        Stage.Result result = curStage.EnemyCheck();
+
+        if (result == Stage.Result.USE_DEFAULT)
+        {
+            result = DefaultEnemyCheck();
+        }
+
+        switch (result)
+        {
+            case Stage.Result.IN_PROGRESS:
+                return false;
+            case Stage.Result.FINISHED:
+                stageManager.GoNextStage();
+                return true;
+            default:
+                return false;
+        }
+    }
+
     public void UpdateCurEnemies(EnemyShip enemy)
     {
         if (enemy is Chaser)
@@ -274,26 +296,26 @@ public class EnemyManager : MonoBehaviour
     }
 
 
-    public bool TriggerStageCheck()
-    {
-        Stage.Result result = curStage.StageCheck();
+    //public bool TriggerStageCheck()
+    //{
+    //    Stage.Result result = CurStage.StageCheck();
 
-        if (result == Stage.Result.USE_DEFAULT)
-        {
-            result = DefaultEnemyCheck();
-        }
+    //    if (result == Stage.Result.USE_DEFAULT)
+    //    {
+    //        result = DefaultEnemyCheck();
+    //    }
 
-        switch (result)
-        {
-            case Stage.Result.IN_PROGRESS:
-                return false;
-            case Stage.Result.FINISHED:
-                GoNextStage();
-                return true;
-            default:
-                return false;
-        }
-    }
+    //    switch (result)
+    //    {
+    //        case Stage.Result.IN_PROGRESS:
+    //            return false;
+    //        case Stage.Result.FINISHED:
+    //            GoNextStage();
+    //            return true;
+    //        default:
+    //            return false;
+    //    }
+    //}
 
     private Stage.Result DefaultEnemyCheck()
     {
@@ -306,16 +328,16 @@ public class EnemyManager : MonoBehaviour
         return Stage.Result.IN_PROGRESS;
     }
 
-    private void GoNextStage()
-    {
-        if (curStageNumber >= stageList.Count)
-        {
-            Debug.Log("Insert Finish Screen");
-            return;
-        }
-        Debug.Log("Loading next stage");
-        curStage = stageList[curStageNumber];
-    }
+    //private void GoNextStage()
+    //{
+    //    if (curStageNumber >= stageList.Count)
+    //    {
+    //        Debug.Log("Insert Finish Screen");
+    //        return;
+    //    }
+    //    Debug.Log("Loading next stage");
+    //    curStage = stageList[curStageNumber];
+    //}
 
     public ValidCoord WithinBounds(Vector3 vector3)
     {
