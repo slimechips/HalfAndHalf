@@ -7,6 +7,12 @@ public class PlayerBullet : Bullet {
     public float speed = 1;
     private float duration = 5f;
 
+    public void Start()
+    {
+        GameObject sound = SoundManager.PlayerShoot();
+        Destroy(sound, 3f);
+    }
+
     private void FixedUpdate() {
         duration -= Time.deltaTime;
         if (duration < 0) Destroy(gameObject);

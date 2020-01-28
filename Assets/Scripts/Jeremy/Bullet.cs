@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Bullet : Projectile
 {
+    public void Start()
+    {
+        GameObject sound = SoundManager.EnemyShoot();
+        Destroy(sound, 3f);
+    }
+
     private float shotSpd = 5f;
 
     private float destroyTime = 10f;

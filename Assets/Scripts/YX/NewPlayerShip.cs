@@ -1,20 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerShip : Ship
+public class NewPlayerShip : Ship
 {
 
-    public static PlayerShip playerShip = null;
-
-    //reference to collider
-    public Collider2D mainCollider;
+    public static NewPlayerShip playerShip = null;
 
     // reference to sprites
     public Sprite[] playerSprites;
     public Image healthIm;
     private SpriteRenderer sprite;
-    public SpriteRenderer leftGunSprite;
-    public SpriteRenderer rightGunSprite;
     public Slider energySlider;                                 // Reference to the UI's energy bar.
     public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
     public AudioClip deathClip;                                 // The audio clip to play when the player dies.
@@ -34,12 +31,13 @@ public class PlayerShip : Ship
 
     public void addScore(float amt)
     {
-        _score += amt; 
+        _score += amt;
     }
 
 
     private float _energy = 100;
-    public float energy {
+    public float energy
+    {
         get { return _energy; }
         set { _energy = Mathf.Clamp(value, 0, 100); }
     }
@@ -89,7 +87,6 @@ public class PlayerShip : Ship
             damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
         }
         damaged = false;
-
         // visualise health using the spaceship
         healthIm.fillAmount = 1f - health / maxHealth;
 
@@ -106,10 +103,10 @@ public class PlayerShip : Ship
     {
         // spawn explosions
         // trigger defeat screen
-        GameObject go = Instantiate(Resources.Load("Prefabs/ExplosionReal", typeof(GameObject))) as GameObject;
+        GameObject go = Instantiate(Resources.Load("Prefabs/Explosion") as GameObject);
         go.transform.position = transform.position;
         go.GetComponent<SpriteRenderer>().color = new Color(255, 255, 0);
-        
+
         // Tell the animator that the player is dead.
         isDead = true;
         anim.SetTrigger("Die");
@@ -118,9 +115,6 @@ public class PlayerShip : Ship
         playerAudio.Play();
 
         if (sprite != null) sprite.enabled = false;
-        if (leftGunSprite != null) leftGunSprite.enabled = false;
-        if (rightGunSprite != null) rightGunSprite.enabled = false;
-        mainCollider.enabled = false;
     }
 
     public override bool ReceiveProjectile(Projectile p)

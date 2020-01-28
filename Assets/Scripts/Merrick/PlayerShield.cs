@@ -64,7 +64,13 @@ public class PlayerShield : MonoBehaviour, ICollidesWithProjectiles {
     }
 
     public bool ReceiveProjectile(Projectile p) {
-        return on && !p.isPlayerProjectile;
+        if (on && !p.isPlayerProjectile)
+        {
+            GameObject sound = SoundManager.PlayCollideWithShieldSound();
+            Destroy(sound, 3f);
+            return true;
+        }
+        return false;
     }
 
     public void Reset() {

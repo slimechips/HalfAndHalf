@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explosion : MonoBehaviour
+public class ExplosionPlayer : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("DestroyThis", 0.5f);
+        Invoke("DestroyThis", 2f);
     }
 
     // Update is called once per frame

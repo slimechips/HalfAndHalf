@@ -90,10 +90,11 @@ public class EnemyShip : Ship
 
     public override void OnDeath()
     {
-        GameObject go = Instantiate(Resources.Load("Prefabs/Explosion") as GameObject);
+        GameObject go = Instantiate(Resources.Load("Prefabs/explosionAnim") as GameObject);
         go.transform.position = transform.position;
         Destroy(gameObject);
-
+        GameObject sound = SoundManager.PlaySound();
+        Destroy(sound, 3f);
         player.GetComponent<PlayerShip>().addScore(reward);
 
     }
@@ -104,6 +105,8 @@ public class EnemyShip : Ship
         {
             Damage(p.damage);
             Damage(p.damagePerSecond * Time.fixedDeltaTime);
+            GameObject sound = SoundManager.EnemyDamage();
+            Destroy(sound, 3f);
             return true;
         }
         return false;
