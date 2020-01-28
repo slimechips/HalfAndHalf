@@ -95,6 +95,7 @@ public class EnemyShip : Ship
         Destroy(gameObject);
         GameObject sound = SoundManager.PlaySound();
         Destroy(sound, 3f);
+        EnemyManager.current.UpdateCurEnemies(this);
         player.GetComponent<PlayerShip>().addScore(reward);
 
     }
