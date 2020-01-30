@@ -12,13 +12,13 @@ public class ComboManager : MonoBehaviour {
         ShieldStrike,
         ShipOfTheLine,
         Fortress,
-        SwordAndBoardP1,
-        SwordAndBoardP2,
+        //SwordAndBoardP1,
+        //SwordAndBoardP2,
         Cooldown,
     }
 
     public enum Button {
-        a,
+        rb,
         b,
         x,
         y,
@@ -26,9 +26,9 @@ public class ComboManager : MonoBehaviour {
 
     public static ComboState State = ComboState.None;
 
-    private Button p1LastButton = Button.a;
+    private Button p1LastButton = Button.rb;
     private float p1ButtonTime = 1;
-    private Button p2LastButton = Button.a;
+    private Button p2LastButton = Button.rb;
     private float p2ButtonTime = 1;
 
     private float timer = 0;
@@ -64,11 +64,11 @@ public class ComboManager : MonoBehaviour {
 
     private void Update() { // Do not shift to FixedUpdate! ButtonDOWN requires update or a annoyingly long fix.
 
-        if (Input.GetButtonDown("p1 a")) { p1LastButton = Button.a; p1ButtonTime = 0; }
+        if (Input.GetButtonDown("p1 rb")) { p1LastButton = Button.rb; p1ButtonTime = 0; }
         else if (Input.GetButtonDown("p1 x")) { p1LastButton = Button.x; p1ButtonTime = 0; }
         else if (Input.GetButtonDown("p1 y")) { p1LastButton = Button.y; p1ButtonTime = 0; }
 
-        if (Input.GetButtonDown("p2 a")) { p2LastButton = Button.a; p2ButtonTime = 0; }
+        if (Input.GetButtonDown("p2 rb")) { p2LastButton = Button.rb; p2ButtonTime = 0; }
         else if (Input.GetButtonDown("p2 x")) { p2LastButton = Button.x; p2ButtonTime = 0; }
         else if (Input.GetButtonDown("p2 y")) { p2LastButton = Button.y; p2ButtonTime = 0; }
 
@@ -87,14 +87,14 @@ public class ComboManager : MonoBehaviour {
             if (PlayerShip.playerShip.energy >= 70
                 && angle1 < 25 && angle2 > 155
                 && p1LastButton == Button.y && p1ButtonTime < 0.25f
-                && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
+                && p2LastButton == Button.rb && p2ButtonTime < 0.25f) {
                 PlayerShip.playerShip.energy -= 70;
                 BulletSpin(true);
             }
             else if (PlayerShip.playerShip.energy >= 70
                      && angle2 < 25 && angle1 > 155
                      && p2LastButton == Button.y && p2ButtonTime < 0.25f
-                     && p1LastButton == Button.a && p1ButtonTime < 0.25f) {
+                     && p1LastButton == Button.rb && p1ButtonTime < 0.25f) {
                 PlayerShip.playerShip.energy -= 70;
                 BulletSpin(false);
             }
@@ -110,9 +110,9 @@ public class ComboManager : MonoBehaviour {
             else if (PlayerShip.playerShip.energy >= 80
                      && angle1 < 115 && angle2 < 115
                      && angle1 > 65 && angle2 > 65
-                     && Input.GetButton("p1 a") && Input.GetButton("p2 a")
-                     && p1LastButton == Button.a && p1ButtonTime < 0.25f
-                     && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
+                     && Input.GetButton("p1 rb") && Input.GetButton("p2 rb")
+                     && p1LastButton == Button.rb && p1ButtonTime < 0.25f
+                     && p2LastButton == Button.rb && p2ButtonTime < 0.25f) {
                 PlayerShip.playerShip.energy -= 80;
                 ShipOfTheLine(); // controls are awkward, may change
                 Debug.Log("ship");
@@ -123,20 +123,20 @@ public class ComboManager : MonoBehaviour {
                 PlayerShip.playerShip.energy -= 40;
                 Fortress(); // window is shorter to avoid triggering when trying to do shield strike
             }
-            else if (PlayerShip.playerShip.energy >= 20
-                     && Input.GetButton("p1 x")
-                     && p1LastButton == Button.a && p1ButtonTime < 0.25f
-                     && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
-                PlayerShip.playerShip.energy -= 20;
-                SwordAndBoard(true);
-            }
-            else if (PlayerShip.playerShip.energy >= 20
-                     && Input.GetButton("p2 x")
-                     && p1LastButton == Button.a && p1ButtonTime < 0.25f
-                     && p2LastButton == Button.a && p2ButtonTime < 0.25f) {
-                PlayerShip.playerShip.energy -= 20;
-                SwordAndBoard(false);
-            }
+            //else if (PlayerShip.playerShip.energy >= 20
+                     //&& Input.GetButton("p1 x")
+                     //&& p1LastButton == Button.rb && p1ButtonTime < 0.25f
+                     //&& p2LastButton == Button.rb && p2ButtonTime < 0.25f) {
+                //PlayerShip.playerShip.energy -= 20;
+                //SwordAndBoard(true);
+            //}
+            //else if (PlayerShip.playerShip.energy >= 20
+                     //&& Input.GetButton("p2 x")
+                     //&& p1LastButton == Button.rb && p1ButtonTime < 0.25f
+                     //&& p2LastButton == Button.rb && p2ButtonTime < 0.25f) {
+                //PlayerShip.playerShip.energy -= 20;
+                //SwordAndBoard(false);
+            //}
         }
         else if (State == ComboState.Cooldown) {
             PlayerShip.playerShip.energy += 5 * Time.fixedDeltaTime;
@@ -203,11 +203,11 @@ public class ComboManager : MonoBehaviour {
         State = ComboState.Fortress;
     }
 
-    private void SwordAndBoard(bool player2side) {
-        p1Thruster.ResetNitro(); p2Thruster.ResetNitro();
-        if (player2side) { p1BigShield.gameObject.SetActive(true); p1BigShield.timeToSelfDisable = 5f; }
-        else { p2BigShield.gameObject.SetActive(true); p2BigShield.timeToSelfDisable = 5f; }
-        timer = 5f;
-        State = player2side? ComboState.SwordAndBoardP2 : ComboState.SwordAndBoardP1;
-    }
+    //private void SwordAndBoard(bool player2side) {
+        //p1Thruster.ResetNitro(); p2Thruster.ResetNitro();
+        //if (player2side) { p1BigShield.gameObject.SetActive(true); p1BigShield.timeToSelfDisable = 5f; }
+        //else { p2BigShield.gameObject.SetActive(true); p2BigShield.timeToSelfDisable = 5f; }
+        //timer = 5f;
+        //State = player2side? ComboState.SwordAndBoardP2 : ComboState.SwordAndBoardP1;
+    //}
 }
